@@ -78,8 +78,7 @@ function pagina({ caminho, titulo, descricao, conteudo, imagem = 'og.jpg', tipo 
   <header class="topo">
     <div class="container">
       <a class="marca" href="/" aria-label="${NOME}, página inicial">
-        <img src="/assets/img/logo.png" alt="" width="52" height="52">
-        <span>${NOME}</span>
+        <img src="/assets/img/logo.png" alt="1972corp" width="60" height="60">
       </a>
       <button class="botao-menu" aria-expanded="false" aria-controls="menu">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"/></svg> Menu

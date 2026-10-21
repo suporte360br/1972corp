@@ -37,7 +37,7 @@ p { margin: 0 0 1em; }
 .topo { position: sticky; top: 0; z-index: 50; background: rgba(250,248,245,.92); backdrop-filter: saturate(1.4) blur(10px); border-bottom: 1px solid var(--linha); }
 .topo .container { display: flex; align-items: center; justify-content: space-between; min-height: 72px; gap: 16px; }
 .marca { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--tinta); }
-.marca img { width: 52px; height: 52px; border-radius: 12px; border: 1px solid var(--linha); background: #fff; }
+.marca img { width: 60px; height: 60px; border-radius: 12px; border: 1px solid var(--linha); background: #fff; }
 .marca span { font-family: var(--serif); font-size: 1.3rem; font-weight: 600; }
 .menu ul { list-style: none; display: flex; gap: 6px; margin: 0; padding: 0; align-items: center; }
 .menu a { display: block; padding: 8px 14px; border-radius: 999px; text-decoration: none; color: var(--tinta); font-weight: 500; font-size: .97rem; }
