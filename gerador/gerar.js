@@ -64,9 +64,11 @@ function pagina({ caminho, titulo, descricao, conteudo, imagem = 'og.jpg', tipo 
   <meta name="twitter:title" content="${esc(titulo)}">
   <meta name="twitter:description" content="${esc(descricao)}">
   <meta name="twitter:image" content="${SITE}/assets/img/${imagem}">
-  <link rel="icon" href="/favicon.ico" sizes="any">
-  <link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicon-32.png">
-  <link rel="apple-touch-icon" href="/assets/img/apple-touch-icon.png">
+  <link rel="icon" href="/favicon.ico?v=2" sizes="48x48">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicon-32.png?v=2">
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicon-16.png?v=2">
+  <link rel="apple-touch-icon" href="/assets/img/apple-touch-icon.png?v=2">
+  <link rel="manifest" href="/site.webmanifest">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600;700&display=swap">
