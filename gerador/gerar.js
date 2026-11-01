@@ -69,9 +69,8 @@ function pagina({ caminho, titulo, descricao, conteudo, imagem = 'og.jpg', tipo 
   <link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicon-16.png?v=2">
   <link rel="apple-touch-icon" href="/assets/img/apple-touch-icon.png?v=2">
   <link rel="manifest" href="/site.webmanifest">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600;700&display=swap">
+  <link rel="preload" href="/assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/assets/fonts/fraunces-latin.woff2" as="font" type="font/woff2" crossorigin>
   ${preload}<link rel="stylesheet" href="/assets/css/style.css?v=${V_CSS}">
   ${ld}
 </head>
@@ -166,10 +165,21 @@ function cartaoImovel(im, completo = false) {
       </article>`;
 }
 
+// Imagem em WebP (dois tamanhos) com JPEG de reserva; arquivos gerados por gerador/imagens.js
+function foto(base, alt, w, h, { larguras = [600, 1200], sizes = '(max-width: 760px) 100vw, 400px', attrs = 'loading="lazy"', jpg = base + '.jpg' } = {}) {
+  const srcset = larguras.map(l => `/assets/img/${base}-${l}.webp ${l}w`).join(', ');
+  return `<picture><source type="image/webp" srcset="${srcset}" sizes="${sizes}"><img src="/assets/img/${jpg}" alt="${esc(alt)}" width="${w}" height="${h}" ${attrs}></picture>`;
+}
+
+// Capas geradas para matérias sem foto: capa-<slug>-600.webp, capa-<slug>.webp (1200) e capa-<slug>.jpg (1200x630)
+function capaGerada(m, sizes) {
+  return `<picture><source type="image/webp" srcset="/assets/img/capa-${m.slug}-600.webp 600w, /assets/img/capa-${m.slug}.webp 1200w" sizes="${sizes || '(max-width: 760px) 100vw, 400px'}"><img src="/assets/img/capa-${m.slug}.jpg" alt="" width="1200" height="800" loading="lazy"></picture>`;
+}
+
 function cartaoMateria(m) {
   const midia = m.imagem
-    ? `<img src="/assets/img/${m.imagem}" alt="${esc(m.imagemAlt)}" width="1200" height="800" loading="lazy">`
-    : `<div class="placa" aria-hidden="true"><div><small>${esc(m.tema)}</small><strong>${esc(m.titulo.split(':')[0])}</strong></div></div>`;
+    ? foto(m.imagem.replace('.jpg', ''), m.imagemAlt, 1200, 800)
+    : capaGerada(m);
   return `<article class="cartao" data-tema="${esc(m.tema)}">
         <div class="midia">${midia}</div>
         <div class="corpo">
@@ -211,7 +221,7 @@ paginas['index.html'] = pagina({
   caminho: '/',
   titulo: '1972corp | Administração de imóveis em São Paulo e Sorocaba',
   descricao: 'Imóveis residenciais e comerciais para alugar em São Paulo (Mooca) e Sorocaba, com administração direta, contratos claros e atendimento próximo.',
-  preload: '<link rel="preload" as="image" href="/assets/img/hero.jpg">\n  ',
+  preload: '<link rel="preload" as="image" type="image/webp" imagesrcset="/assets/img/hero-800.webp 800w, /assets/img/hero-1600.webp 1600w" imagesizes="100vw">\n  ',
   jsonld: [ORG, {
     '@context': 'https://schema.org', '@type': 'WebSite', '@id': SITE + '/#site', url: SITE + '/', name: NOME, inLanguage: 'pt-BR', publisher: { '@id': SITE + '/#organizacao' }
   }, {
@@ -220,7 +230,7 @@ paginas['index.html'] = pagina({
   }],
   conteudo: `
     <section class="hero">
-      <img src="/assets/img/hero.jpg" alt="" width="1600" height="900" fetchpriority="high">
+      ${foto('hero', '', 1600, 900, { larguras: [800, 1600], sizes: '100vw', attrs: 'fetchpriority="high"' })}
       <div class="container">
         <span class="sobretitulo">Administração de imóveis</span>
         <h1>Imóveis bem cuidados, contratos claros e atendimento direto</h1>
@@ -394,7 +404,7 @@ paginas['index.html'] = pagina({
           <p>Nosso modelo é simples: atendimento direto, sem camadas de intermediação. Quem fala com você é quem conhece o imóvel e pode resolver.</p>
           <a class="botao botao-primario" href="/contato/">Fale com a gente</a>
         </div>
-        <img src="/assets/img/casa-card.jpg" alt="Casa moderna com fachada de vidro e jardim iluminado ao entardecer (imagem ilustrativa)" width="1200" height="800" loading="lazy" style="border-radius:var(--raio);border:1px solid var(--linha)">
+        <div style="border-radius:var(--raio);border:1px solid var(--linha);overflow:hidden">${foto('casa-card', 'Casa moderna com fachada de vidro e jardim iluminado ao entardecer (imagem ilustrativa)', 1200, 800, { sizes: '(max-width: 760px) 100vw, 560px' })}</div>
       </div>
     </section>
     <section class="secao secao-alt">
@@ -495,15 +505,16 @@ for (const m of ordenadas) {
   const relacionadas = [...ordenadas.filter(x => x !== m && x.tema === m.tema), ...ordenadas.filter(x => x !== m && x.tema !== m.tema)].slice(0, 3);
   paginas[`blog/${m.slug}/index.html`] = pagina({
     caminho: `/blog/${m.slug}/`,
-    titulo: m.titulo,
+    titulo: m.tituloSEO || m.titulo,
     descricao: m.descricao,
     tipo: 'article',
-    imagem: m.imagem || 'og.jpg',
+    imagem: m.imagem || `capa-${m.slug}.jpg`,
     jsonld: [t.ld, {
       '@context': 'https://schema.org', '@type': 'BlogPosting',
       headline: m.titulo, description: m.descricao, inLanguage: 'pt-BR',
-      image: `${SITE}/assets/img/${m.imagem || 'og.jpg'}`,
-      datePublished: m.data, dateModified: m.data,
+      image: `${SITE}/assets/img/${m.imagem || `capa-${m.slug}.jpg`}`,
+      datePublished: m.data, dateModified: m.revisado || m.data,
+      citation: (m.fontes || []).map(f => f.url ? { '@type': 'CreativeWork', name: f.nome, url: f.url } : { '@type': 'CreativeWork', name: f.nome }),
       mainEntityOfPage: `${SITE}/blog/${m.slug}/`,
       author: { '@type': 'Organization', name: NOME, url: SITE + '/' },
       publisher: { '@id': SITE + '/#organizacao' },
@@ -514,9 +525,13 @@ for (const m of ordenadas) {
       ${t.html}
       <span class="tag">${esc(m.tema)}</span>
       <h1 style="margin-top:12px">${esc(m.titulo)}</h1>
-      <p class="meta">Publicado em <time datetime="${m.data}">${dataBR(m.data)}</time> · por ${NOME}</p>
-      ${m.imagem ? `<img class="capa" src="/assets/img/${m.imagem}" alt="${esc(m.imagemAlt)}" width="1200" height="800">` : ''}
+      <p class="meta">Publicado em <time datetime="${m.data}">${dataBR(m.data)}</time>${m.revisado && m.revisado !== m.data ? ` · Revisado em <time datetime="${m.revisado}">${dataBR(m.revisado)}</time>` : ''} · por ${NOME}</p>
+      ${m.imagem ? `<div class="capa" style="overflow:hidden">${foto(m.imagem.replace('.jpg', ''), m.imagemAlt, 1200, 800, { sizes: '(max-width: 780px) 100vw, 740px', attrs: 'fetchpriority="high"' })}</div>` : ''}
       ${m.corpo.trim()}
+      ${(m.fontes || []).length ? `<section class="fontes" aria-labelledby="fontes-titulo">
+        <h2 id="fontes-titulo">Fontes</h2>
+        <ul>${m.fontes.map(f => `<li>${f.url ? `<a href="${f.url}" rel="noopener" target="_blank">${esc(f.nome)}</a>` : esc(f.nome)}</li>`).join('')}</ul>
+      </section>` : ''}
       <div class="chamada" style="margin-top:40px;padding:32px">
         <div><h2 style="font-size:1.4rem">Precisa de um imóvel em São Paulo ou Sorocaba?</h2><p>Veja os imóveis administrados pela 1972corp.</p></div>
         <a class="botao botao-primario" href="/imoveis/">Ver imóveis</a>
@@ -595,7 +610,7 @@ for (const [arq, html] of Object.entries(paginas)) {
 
 const urls = [
   ['/', '1.0'], ['/imoveis/', '0.9'], ['/blog/', '0.8'], ['/sobre/', '0.6'], ['/contato/', '0.6'], ['/privacidade/', '0.2'],
-  ...ordenadas.map(m => [`/blog/${m.slug}/`, '0.7', m.data])
+  ...ordenadas.map(m => [`/blog/${m.slug}/`, '0.7', m.revisado || m.data])
 ];
 fs.writeFileSync(path.join(RAIZ, 'sitemap.xml'),
   `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n` +

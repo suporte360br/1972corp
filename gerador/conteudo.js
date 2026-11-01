@@ -54,10 +54,13 @@ exports.imoveis = [
 exports.materias = [
   {
     slug: 'holding-patrimonial-imoveis',
+    tituloSEO: 'Holding patrimonial para imóveis: quando vale a pena',
+    fontes: [{ nome: 'Constituição Federal, art. 156, § 2º, I (ITBI)', url: 'https://www.planalto.gov.br/ccivil_03/constituicao/constituicao.htm' }, { nome: 'Emenda Constitucional 132/2023 (reforma tributária)', url: 'https://www.planalto.gov.br/ccivil_03/constituicao/emendas/emc/emc132.htm' }, { nome: 'STF, Tema 796 de repercussão geral (RE 796.376)' }],
     titulo: 'Holding patrimonial: o que é e quando vale a pena para quem tem imóveis',
     descricao: 'Entenda como funciona uma holding patrimonial, quais as vantagens para proprietários de imóveis, os custos envolvidos e os cuidados antes de abrir uma.',
     tema: 'Patrimônio',
     data: '2026-10-20',
+    revisado: '2026-11-01',
     imagem: 'holding.jpg',
     imagemAlt: 'Esquema de holding patrimonial reunindo casas, apartamento, lotes, fazenda, carro e quotas de empresa',
     corpo: `
@@ -115,10 +118,14 @@ exports.materias = [
   },
   {
     slug: 'garantias-de-aluguel',
+    tituloSEO: 'Caução, fiador ou seguro-fiança: qual escolher',
+    tituloCurto: 'Caução, fiador ou seguro-fiança?',
+    fontes: [{ nome: 'Lei 8.245/1991 (Lei do Inquilinato)', url: 'https://www.planalto.gov.br/ccivil_03/leis/l8245.htm' }],
     titulo: 'Caução, fiador ou seguro-fiança: como escolher a garantia do aluguel',
     descricao: 'Conheça as quatro garantias locatícias permitidas pela Lei do Inquilinato, as vantagens de cada uma e por que o contrato só pode ter uma delas.',
     tema: 'Locação',
     data: '2026-10-19',
+    revisado: '2026-11-01',
     corpo: `
 <p>A garantia é o que protege o proprietário se o inquilino deixar de pagar o aluguel ou devolver o imóvel danificado. A Lei do Inquilinato (Lei 8.245/1991) lista no artigo 37 as modalidades possíveis. E determina que <strong>o contrato só pode ter uma delas</strong>: exigir fiador e caução ao mesmo tempo, por exemplo, é proibido.</p>
 
@@ -152,10 +159,14 @@ exports.materias = [
   },
   {
     slug: 'vistoria-de-imovel-alugado',
+    tituloSEO: 'Vistoria de imóvel alugado: entrada e saída sem conflito',
+    tituloCurto: 'Vistoria de entrada e saída',
+    fontes: [{ nome: 'Lei 8.245/1991 (Lei do Inquilinato)', url: 'https://www.planalto.gov.br/ccivil_03/leis/l8245.htm' }],
     titulo: 'Vistoria de entrada e saída: como evitar conflitos no fim do aluguel',
     descricao: 'Veja o que precisa constar no laudo de vistoria de um imóvel alugado, como registrar fotos e o que é desgaste natural versus dano.',
     tema: 'Locação',
     data: '2026-10-18',
+    revisado: '2026-11-01',
     corpo: `
 <p>A maior parte das discussões entre proprietário e inquilino acontece no dia da entrega das chaves. A forma mais simples de evitar isso é fazer uma <strong>boa vistoria de entrada</strong>. A Lei do Inquilinato obriga o proprietário a fornecer uma descrição minuciosa do estado do imóvel quando ele é entregue (art. 22, V) e obriga o inquilino a devolvê-lo no mesmo estado, exceto pelo desgaste do uso normal (art. 23, III).</p>
 
@@ -193,10 +204,14 @@ exports.materias = [
   },
   {
     slug: 'reajuste-de-aluguel',
+    tituloSEO: 'Reajuste de aluguel: IGP-M, IPCA e o que diz a lei',
+    tituloCurto: 'Reajuste de aluguel: IGP-M ou IPCA?',
+    fontes: [{ nome: 'Lei 8.245/1991 (Lei do Inquilinato)', url: 'https://www.planalto.gov.br/ccivil_03/leis/l8245.htm' }, { nome: 'Lei 10.192/2001 (periodicidade anual do reajuste)', url: 'https://www.planalto.gov.br/ccivil_03/leis/leis_2001/l10192.htm' }, { nome: 'Calculadora do Cidadão (Banco Central)', url: 'https://www3.bcb.gov.br/CALCIDADAO/publico/exibirFormCorrecaoValores.do?method=exibirFormCorrecaoValores' }],
     titulo: 'Reajuste de aluguel: IGP-M, IPCA e o que diz a lei',
     descricao: 'Saiba como funciona o reajuste anual do aluguel, quais índices podem ser usados, o que é proibido e quando cabe a revisão do valor.',
     tema: 'Locação',
     data: '2026-10-17',
+    revisado: '2026-11-01',
     corpo: `
 <p>Todo ano, no aniversário do contrato, surge a mesma pergunta: quanto o aluguel vai subir? A resposta está no próprio contrato, mas a lei impõe alguns limites.</p>
 
@@ -227,10 +242,13 @@ exports.materias = [
   },
   {
     slug: 'como-alugar-galpao',
+    tituloSEO: 'Galpão para alugar: 10 pontos antes de fechar',
+    fontes: [{ nome: 'Lei 8.245/1991 (Lei do Inquilinato)', url: 'https://www.planalto.gov.br/ccivil_03/leis/l8245.htm' }, { nome: 'GeoSampa (Prefeitura de São Paulo)', url: 'https://geosampa.prefeitura.sp.gov.br/' }],
     titulo: 'Galpão para alugar: 10 pontos para avaliar antes de fechar contrato',
     descricao: 'Checklist para escolher um galpão ou imóvel comercial: pé-direito, piso, docas, energia, zoneamento, AVCB, acesso e custos.',
     tema: 'Imóveis comerciais',
     data: '2026-10-16',
+    revisado: '2026-11-01',
     imagem: 'galpao.jpg',
     imagemAlt: 'Galpão com estrutura metálica, portão aberto e piso de concreto (imagem ilustrativa)',
     corpo: `
@@ -257,10 +275,14 @@ exports.materias = [
   },
   {
     slug: 'renovacao-de-aluguel-comercial',
+    tituloSEO: 'Ação renovatória: como renovar aluguel comercial',
+    tituloCurto: 'Renovação de aluguel comercial',
+    fontes: [{ nome: 'Lei 8.245/1991 (Lei do Inquilinato)', url: 'https://www.planalto.gov.br/ccivil_03/leis/l8245.htm' }],
     titulo: 'Renovação de aluguel comercial: como funciona a ação renovatória',
     descricao: 'Entenda os requisitos da ação renovatória na locação comercial, o prazo para entrar com o pedido e como proteger o seu ponto.',
     tema: 'Imóveis comerciais',
     data: '2026-10-15',
+    revisado: '2026-11-01',
     corpo: `
 <p>Para muitos negócios, o endereço é parte do valor da empresa: clientes conhecem o local, a vizinhança gera movimento e houve investimento na reforma. A Lei do Inquilinato protege esse <strong>ponto comercial</strong> por meio da ação renovatória (art. 51).</p>
 

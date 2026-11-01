@@ -24,11 +24,10 @@
   <link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicon-16.png?v=2">
   <link rel="apple-touch-icon" href="/assets/img/apple-touch-icon.png?v=2">
   <link rel="manifest" href="/site.webmanifest">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600;700&display=swap">
-  <link rel="preload" as="image" href="/assets/img/hero.jpg">
-  <link rel="stylesheet" href="/assets/css/style.css?v=e78705a8">
+  <link rel="preload" href="/assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/assets/fonts/fraunces-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" as="image" type="image/webp" imagesrcset="/assets/img/hero-800.webp 800w, /assets/img/hero-1600.webp 1600w" imagesizes="100vw">
+  <link rel="stylesheet" href="/assets/css/style.css?v=38e48170">
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"RealEstateAgent","@id":"https://1972corp.com.br/#organizacao","name":"1972corp","url":"https://1972corp.com.br/","logo":"https://1972corp.com.br/assets/img/logo.png","image":"https://1972corp.com.br/assets/img/og.jpg","email":"contato@1972corp.com.br","description":"Administração de imóveis residenciais e comerciais em São Paulo e Sorocaba.","areaServed":[{"@type":"City","name":"São Paulo"},{"@type":"City","name":"Sorocaba"}],"address":{"@type":"PostalAddress","addressLocality":"São Paulo","addressRegion":"SP","addressCountry":"BR"},"knowsAbout":["Administração de imóveis","Locação residencial","Locação comercial","Galpões","Holding patrimonial"]}</script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","@id":"https://1972corp.com.br/#site","url":"https://1972corp.com.br/","name":"1972corp","inLanguage":"pt-BR","publisher":{"@id":"https://1972corp.com.br/#organizacao"}}</script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Os imóveis são para locação ou venda?","acceptedAnswer":{"@type":"Answer","text":"As condições variam conforme o imóvel. Entre em contato informando o imóvel de interesse e enviamos valores, condições e disponibilidade para visita."}},{"@type":"Question","name":"Em quais cidades a 1972corp atua?","acceptedAnswer":{"@type":"Answer","text":"Hoje administramos imóveis em São Paulo (Mooca e Parque da Mooca) e em Sorocaba (Terras de Arieta)."}},{"@type":"Question","name":"Quais garantias de aluguel são aceitas?","acceptedAnswer":{"@type":"Answer","text":"A Lei do Inquilinato permite caução, fiança, seguro-fiança ou cessão de quotas de fundo de investimento, uma por contrato. A modalidade é combinada caso a caso, de acordo com o imóvel e o perfil do inquilino."}},{"@type":"Question","name":"Como agendar uma visita?","acceptedAnswer":{"@type":"Answer","text":"Envie uma mensagem pela página de contato ou para contato@1972corp.com.br com o imóvel de interesse e os melhores dias e horários. Respondemos com as opções disponíveis."}}]}</script>
@@ -58,7 +57,7 @@
   <main id="conteudo">
 
     <section class="hero">
-      <img src="/assets/img/hero.jpg" alt="" width="1600" height="900" fetchpriority="high">
+      <picture><source type="image/webp" srcset="/assets/img/hero-800.webp 800w, /assets/img/hero-1600.webp 1600w" sizes="100vw"><img src="/assets/img/hero.jpg" alt="" width="1600" height="900" fetchpriority="high"></picture>
       <div class="container">
         <span class="sobretitulo">Administração de imóveis</span>
         <h1>Imóveis bem cuidados, contratos claros e atendimento direto</h1>
@@ -161,7 +160,7 @@
         </div>
         <div class="grade grade-3">
       <article class="cartao" data-tema="Patrimônio">
-        <div class="midia"><img src="/assets/img/holding.jpg" alt="Esquema de holding patrimonial reunindo casas, apartamento, lotes, fazenda, carro e quotas de empresa" width="1200" height="800" loading="lazy"></div>
+        <div class="midia"><picture><source type="image/webp" srcset="/assets/img/holding-600.webp 600w, /assets/img/holding-1200.webp 1200w" sizes="(max-width: 760px) 100vw, 400px"><img src="/assets/img/holding.jpg" alt="Esquema de holding patrimonial reunindo casas, apartamento, lotes, fazenda, carro e quotas de empresa" width="1200" height="800" loading="lazy"></picture></div>
         <div class="corpo">
           <span class="tag">Patrimônio</span>
           <h3><a href="/blog/holding-patrimonial-imoveis/">Holding patrimonial: o que é e quando vale a pena para quem tem imóveis</a></h3>
@@ -170,7 +169,7 @@
         </div>
       </article>
       <article class="cartao" data-tema="Locação">
-        <div class="midia"><div class="placa" aria-hidden="true"><div><small>Locação</small><strong>Caução, fiador ou seguro-fiança</strong></div></div></div>
+        <div class="midia"><picture><source type="image/webp" srcset="/assets/img/capa-garantias-de-aluguel-600.webp 600w, /assets/img/capa-garantias-de-aluguel.webp 1200w" sizes="(max-width: 760px) 100vw, 400px"><img src="/assets/img/capa-garantias-de-aluguel.jpg" alt="" width="1200" height="800" loading="lazy"></picture></div>
         <div class="corpo">
           <span class="tag">Locação</span>
           <h3><a href="/blog/garantias-de-aluguel/">Caução, fiador ou seguro-fiança: como escolher a garantia do aluguel</a></h3>
@@ -179,7 +178,7 @@
         </div>
       </article>
       <article class="cartao" data-tema="Locação">
-        <div class="midia"><div class="placa" aria-hidden="true"><div><small>Locação</small><strong>Vistoria de entrada e saída</strong></div></div></div>
+        <div class="midia"><picture><source type="image/webp" srcset="/assets/img/capa-vistoria-de-imovel-alugado-600.webp 600w, /assets/img/capa-vistoria-de-imovel-alugado.webp 1200w" sizes="(max-width: 760px) 100vw, 400px"><img src="/assets/img/capa-vistoria-de-imovel-alugado.jpg" alt="" width="1200" height="800" loading="lazy"></picture></div>
         <div class="corpo">
           <span class="tag">Locação</span>
           <h3><a href="/blog/vistoria-de-imovel-alugado/">Vistoria de entrada e saída: como evitar conflitos no fim do aluguel</a></h3>
