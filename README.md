@@ -6,3 +6,4 @@ Site estático da 1972corp (administração de imóveis), publicado no GitHub Pa
 - Layout e páginas: `gerador/gerar.js`
 - Para regenerar tudo: `node gerador/gerar.js` (na pasta do site)
 - Imagens WebP e capas das matérias: `node gerador/imagens.js <caminho do pacote sharp>` (precisa do sharp instalado), depois `node gerador/gerar.js`
+- Ícones (favicon.ico, 16 a 512 px): `node gerador/favicon.js <caminho do pacote sharp>`

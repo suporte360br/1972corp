@@ -64,11 +64,16 @@ function pagina({ caminho, titulo, descricao, conteudo, imagem = 'og.jpg', tipo 
   <meta name="twitter:title" content="${esc(titulo)}">
   <meta name="twitter:description" content="${esc(descricao)}">
   <meta name="twitter:image" content="${SITE}/assets/img/${imagem}">
-  <link rel="icon" href="/favicon.ico?v=2" sizes="48x48">
-  <link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicon-32.png?v=2">
-  <link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicon-16.png?v=2">
-  <link rel="apple-touch-icon" href="/assets/img/apple-touch-icon.png?v=2">
-  <link rel="manifest" href="/site.webmanifest">
+  <link rel="icon" href="/favicon.ico?v=3" sizes="48x48">
+  <link rel="icon" type="image/png" sizes="512x512" href="/assets/img/icon-512.png?v=3">
+  <link rel="icon" type="image/png" sizes="192x192" href="/assets/img/icon-192.png?v=3">
+  <link rel="icon" type="image/png" sizes="144x144" href="/assets/img/icon-144.png?v=3">
+  <link rel="icon" type="image/png" sizes="96x96" href="/assets/img/icon-96.png?v=3">
+  <link rel="icon" type="image/png" sizes="48x48" href="/assets/img/favicon-48.png?v=3">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicon-32.png?v=3">
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicon-16.png?v=3">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/img/apple-touch-icon.png?v=3">
+  <link rel="manifest" href="/site.webmanifest?v=3">
   <link rel="preload" href="/assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/assets/fonts/fraunces-latin.woff2" as="font" type="font/woff2" crossorigin>
   ${preload}<link rel="stylesheet" href="/assets/css/style.css?v=${V_CSS}">

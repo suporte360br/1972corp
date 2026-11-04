@@ -3,14 +3,28 @@
   "short_name": "1972corp",
   "icons": [
     {
-      "src": "/assets/img/icon-192.png",
-      "sizes": "192x192",
-      "type": "image/png"
+      "src": "/assets/img/icon-96.png?v=3",
+      "sizes": "96x96",
+      "type": "image/png",
+      "purpose": "any"
     },
     {
-      "src": "/assets/img/icon-512.png",
+      "src": "/assets/img/icon-144.png?v=3",
+      "sizes": "144x144",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/assets/img/icon-192.png?v=3",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/assets/img/icon-512.png?v=3",
       "sizes": "512x512",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any"
     }
   ],
   "theme_color": "#1c1f24",
