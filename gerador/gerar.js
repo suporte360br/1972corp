@@ -52,6 +52,7 @@ function pagina({ caminho, titulo, descricao, conteudo, imagem = 'og.jpg', tipo 
   <meta name="description" content="${esc(descricao)}">
   <link rel="canonical" href="${url}">
   ${semIndex ? '<meta name="robots" content="noindex, follow">' : '<meta name="robots" content="index, follow, max-image-preview:large">'}
+  <script>/* Endereços com parâmetros (ex.: ?u=... criados pela invasão do site antigo da UOL) não devem ser indexados */if(location.search){var r=document.querySelector('meta[name=robots]');if(r)r.content='noindex, follow';}</script>
   <meta name="theme-color" content="#1c1f24">
   <meta property="og:locale" content="pt_BR">
   <meta property="og:site_name" content="${NOME}">
