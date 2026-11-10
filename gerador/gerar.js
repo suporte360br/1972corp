@@ -512,10 +512,6 @@ for (const m of ordenadas) {
         <h2 id="fontes-titulo">Fontes</h2>
         <ul>${m.fontes.map(f => `<li>${f.url ? `<a href="${f.url}" rel="noopener" target="_blank">${esc(f.nome)}</a>` : esc(f.nome)}</li>`).join('')}</ul>
       </section>` : ''}
-      <div class="chamada" style="margin-top:40px;padding:32px">
-        <div><h2 style="font-size:1.4rem">Precisa de um imóvel em São Paulo ou Sorocaba?</h2><p>Veja os imóveis administrados pela 1972corp.</p></div>
-        <a class="botao botao-primario" href="/imoveis/">Ver imóveis</a>
-      </div>
       <section class="leia-tambem" aria-labelledby="leia-tambem">
         <h2 id="leia-tambem" style="margin-top:0">Leia também</h2>
         <div class="grade grade-3" style="grid-template-columns:repeat(auto-fit,minmax(200px,1fr))">
