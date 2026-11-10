@@ -47,7 +47,7 @@ function capaSVG(m, w, h) {
   for (const [arq, larguras] of Object.entries(fotos)) {
     const base = arq.replace('.jpg', '');
     for (const l of larguras) {
-      await sharp(path.join(IMG, arq)).resize(l).webp({ quality: arq === 'hero.jpg' ? 70 : 76 }).toFile(path.join(IMG, `${base}-${l}.webp`));
+      await sharp(path.join(IMG, arq)).resize(l).webp({ quality: arq === 'hero.jpg' ? (l > 800 ? 55 : 70) : 76 }).toFile(path.join(IMG, `${base}-${l}.webp`));
     }
   }
   // Imagem de compartilhamento mais leve
