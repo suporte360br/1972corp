@@ -197,15 +197,15 @@ const ORG = {
   logo: SITE + '/assets/img/logo.png',
   image: SITE + '/assets/img/og.jpg',
   email: EMAIL,
-  description: 'Administração de imóveis residenciais e comerciais em São Paulo e Sorocaba.',
-  areaServed: [{ '@type': 'City', name: 'São Paulo' }, { '@type': 'City', name: 'Sorocaba' }],
+  description: 'Administração de imóveis residenciais e comerciais em São Paulo.',
+  areaServed: [{ '@type': 'City', name: 'São Paulo' }],
   address: { '@type': 'PostalAddress', addressLocality: 'São Paulo', addressRegion: 'SP', addressCountry: 'BR' },
   knowsAbout: ['Administração de imóveis', 'Locação residencial', 'Locação comercial', 'Galpões', 'Holding patrimonial']
 };
 
 const FAQ = [
   ['Os imóveis são para locação ou venda?', 'As condições variam conforme o imóvel. Entre em contato informando o imóvel de interesse e enviamos valores, condições e disponibilidade para visita.'],
-  ['Em quais cidades a 1972corp atua?', 'Hoje administramos imóveis em São Paulo e em Sorocaba.'],
+  ['Onde a 1972corp atua?', 'Hoje administramos imóveis residenciais e comerciais em São Paulo – SP.'],
   ['Quais garantias de aluguel são aceitas?', 'A Lei do Inquilinato permite caução, fiança, seguro-fiança ou cessão de quotas de fundo de investimento, uma por contrato. A modalidade é combinada caso a caso, de acordo com o imóvel e o perfil do inquilino.'],
   ['Como agendar uma visita?', 'Envie uma mensagem pela página de contato ou para contato@1972corp.com.br com o imóvel de interesse e os melhores dias e horários. Respondemos com as opções disponíveis.'],
 ];
@@ -216,8 +216,8 @@ const paginas = {};
 // Início
 paginas['index.html'] = pagina({
   caminho: '/',
-  titulo: '1972corp | Administração de imóveis em São Paulo e Sorocaba',
-  descricao: 'Imóveis residenciais e comerciais para alugar em São Paulo (Mooca) e Sorocaba, com administração direta, contratos claros e atendimento próximo.',
+  titulo: '1972corp | Administração de imóveis em São Paulo',
+  descricao: 'Imóveis residenciais e comerciais para alugar em São Paulo, com administração direta, contratos claros e atendimento próximo.',
   preload: '<link rel="preload" as="image" type="image/webp" imagesrcset="/assets/img/hero-800.webp 800w, /assets/img/hero-1600.webp 1600w" imagesizes="100vw">\n  ',
   jsonld: [ORG, {
     '@context': 'https://schema.org', '@type': 'WebSite', '@id': SITE + '/#site', url: SITE + '/', name: NOME, inLanguage: 'pt-BR', publisher: { '@id': SITE + '/#organizacao' }
@@ -231,7 +231,7 @@ paginas['index.html'] = pagina({
       <div class="container">
         <span class="sobretitulo">Administração de imóveis</span>
         <h1>Imóveis bem cuidados, contratos claros e atendimento direto</h1>
-        <p>A 1972corp administra imóveis residenciais e comerciais em São Paulo e Sorocaba. Você fala direto com quem cuida do imóvel, sem intermediários.</p>
+        <p>A 1972corp administra imóveis residenciais e comerciais em São Paulo. Você fala direto com quem cuida do imóvel, sem intermediários.</p>
         <div class="acoes">
           <a class="botao botao-primario" href="/imoveis/">Ver imóveis disponíveis</a>
           <a class="botao botao-claro" href="/contato/">Fale com a gente</a>
@@ -316,7 +316,7 @@ paginas['index.html'] = pagina({
       <div class="container">
         <div class="chamada">
           <div>
-            <h2>Procurando um imóvel em São Paulo ou Sorocaba?</h2>
+            <h2>Procurando um imóvel em São Paulo?</h2>
             <p>Conte o que você precisa e retornamos com as opções disponíveis.</p>
           </div>
           <a class="botao botao-primario" href="/contato/">Entrar em contato</a>
@@ -330,15 +330,15 @@ paginas['index.html'] = pagina({
   const t = trilha([['/', 'Início'], ['/imoveis/', 'Imóveis']]);
   paginas['imoveis/index.html'] = pagina({
     caminho: '/imoveis/',
-    titulo: 'Imóveis para alugar em São Paulo e Sorocaba',
-    descricao: 'Salas comerciais e residências administradas pela 1972corp em São Paulo e Sorocaba. Detalhes e condições na área do cliente.',
+    titulo: 'Imóveis para alugar em São Paulo',
+    descricao: 'Salas comerciais e residências administradas pela 1972corp em São Paulo. Detalhes e condições na área do cliente.',
     jsonld: [t.ld],
     conteudo: `
     <section class="cabecalho-pagina">
       <div class="container">
         ${t.html}
         <h1>Imóveis</h1>
-        <p>A 1972corp administra salas comerciais e residências em São Paulo e Sorocaba, com atendimento direto ao inquilino.</p>
+        <p>A 1972corp administra salas comerciais e residências em São Paulo, com atendimento direto ao inquilino.</p>
       </div>
     </section>
     <section class="secao">
@@ -366,7 +366,7 @@ paginas['index.html'] = pagina({
   paginas['sobre/index.html'] = pagina({
     caminho: '/sobre/',
     titulo: 'Sobre a 1972corp',
-    descricao: 'Conheça a 1972corp, marca de administração de imóveis registrada no INPI, com atuação em São Paulo e Sorocaba e atendimento direto ao inquilino.',
+    descricao: 'Conheça a 1972corp, marca de administração de imóveis registrada no INPI, com atuação em São Paulo e atendimento direto ao inquilino.',
     jsonld: [t.ld, ORG],
     conteudo: `
     <section class="cabecalho-pagina">
@@ -380,7 +380,7 @@ paginas['index.html'] = pagina({
       <div class="container grade grade-2" style="align-items:center">
         <div>
           <h2>Quem somos</h2>
-          <p>A 1972corp é uma marca de <strong>administração de imóveis</strong>, registrada no Instituto Nacional da Propriedade Industrial (INPI). Cuidamos de imóveis residenciais e comerciais em São Paulo e Sorocaba, do anúncio à manutenção.</p>
+          <p>A 1972corp é uma marca de <strong>administração de imóveis</strong>, registrada no Instituto Nacional da Propriedade Industrial (INPI). Cuidamos de imóveis residenciais e comerciais em São Paulo, do anúncio à manutenção.</p>
           <p>Nosso modelo é simples: atendimento direto, sem camadas de intermediação. Quem fala com você é quem conhece o imóvel e pode resolver.</p>
           <a class="botao botao-primario" href="/contato/">Fale com a gente</a>
         </div>
@@ -406,7 +406,7 @@ paginas['index.html'] = pagina({
   paginas['contato/index.html'] = pagina({
     caminho: '/contato/',
     titulo: 'Contato',
-    descricao: 'Fale com a 1972corp para consultar imóveis, agendar visitas ou tirar dúvidas sobre locação em São Paulo e Sorocaba. E-mail: contato@1972corp.com.br.',
+    descricao: 'Fale com a 1972corp para consultar imóveis, agendar visitas ou tirar dúvidas sobre locação em São Paulo. E-mail: contato@1972corp.com.br.',
     jsonld: [t.ld, { '@context': 'https://schema.org', '@type': 'ContactPage', url: SITE + '/contato/', about: { '@id': SITE + '/#organizacao' } }],
     conteudo: `
     <section class="cabecalho-pagina">
@@ -436,7 +436,7 @@ paginas['index.html'] = pagina({
         </form>
         <div class="contato-info">
           <div class="item"><div class="icone">${icones.email}</div><div><h3>E-mail</h3><p><a href="mailto:${EMAIL}">${EMAIL}</a></p></div></div>
-          <div class="item"><div class="icone">${icones.mapa}</div><div><h3>Onde atuamos</h3><p>São Paulo – SP<br>Sorocaba – SP</p></div></div>
+          <div class="item"><div class="icone">${icones.mapa}</div><div><h3>Onde atuamos</h3><p>São Paulo – SP</p></div></div>
           <div class="item"><div class="icone">${icones.relogio}</div><div><h3>Retorno</h3><p>Respondemos as mensagens em dias úteis.</p></div></div>
         </div>
       </div>
