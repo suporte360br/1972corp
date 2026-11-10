@@ -30,7 +30,6 @@ const icones = {
 
 const MENU = [
   ['/', 'Início'],
-  ['/imoveis/', 'Imóveis'],
   ['/sobre/', 'Sobre'],
   ['/blog/', 'Blog'],
   ['/area/', 'Área do cliente'],
@@ -109,12 +108,11 @@ ${conteudo}
       <div class="colunas">
         <div>
           <img class="logo-rodape" src="/assets/img/logo.png" alt="Logotipo 1972corp" width="64" height="64" loading="lazy">
-          <p>Administração de imóveis residenciais e comerciais em São Paulo e Sorocaba, com transparência e atendimento direto.</p>
+          <p>Administração de imóveis residenciais e comerciais em São Paulo, com transparência e atendimento direto.</p>
         </div>
         <div>
           <h2>Navegação</h2>
           <ul>
-            <li><a href="/imoveis/">Imóveis</a></li>
             <li><a href="/sobre/">Sobre a 1972corp</a></li>
             <li><a href="/blog/">Blog</a></li>
             <li><a href="/contato/">Contato</a></li>
@@ -124,7 +122,7 @@ ${conteudo}
           <h2>Contato</h2>
           <ul>
             <li><a href="mailto:${EMAIL}">${EMAIL}</a></li>
-            <li>São Paulo e Sorocaba – SP</li>
+            <li>São Paulo – SP</li>
             <li><a href="/privacidade/">Política de privacidade</a></li>
           </ul>
         </div>
