@@ -22,19 +22,96 @@
     return /^55\d{10,11}$/.test(n) ? n : null;
   }
 
-  function cartao(im) {
-    var assunto = encodeURIComponent(im.titulo + ' – ' + im.cidade);
+  var BUCKET = 'c1972-imoveis';
+  var imoveis = [];
+  var links = {}; // caminho no bucket -> link temporário
+
+  // Links temporários (1 h) para todos os arquivos dos imóveis; arquivos que não existirem ficam de fora
+  async function assinar(lista) {
+    var caminhos = [];
+    lista.forEach(function (im) {
+      (im.midia || []).forEach(function (m) { caminhos.push(m.arquivo); if (m.thumb) caminhos.push(m.thumb); });
+    });
+    if (!caminhos.length) return;
+    var r = await sb.storage.from(BUCKET).createSignedUrls(caminhos, 3600);
+    (r.data || []).forEach(function (x) { if (x.signedUrl && !x.error) links[x.path] = x.signedUrl; });
+  }
+
+  function midiaDisponivel(im) {
+    return (im.midia || []).filter(function (m) { return links[m.arquivo]; });
+  }
+
+  function cartao(im, i) {
+    var midia = midiaDisponivel(im);
+    var capa = midia.filter(function (m) { return m.tipo === 'foto'; })[0];
+    var topo = capa
+      ? '<img class="capa-imovel" src="' + esc(links[capa.thumb] || links[capa.arquivo]) + '" alt="' + esc(capa.legenda || im.titulo) + '">'
+      : '<div class="placa" aria-hidden="true"><div><small>' + esc(im.cidade) + '</small><strong>' + esc(im.bairro) + '</strong></div></div>';
+    var botao = midia.length
+      ? '<button class="botao botao-primario" type="button" data-galeria="' + i + '">Ver fotos</button>'
+      : '<span class="sem-fotos">Fotos em breve</span>';
     return '<article class="cartao imovel">' +
-      '<div class="midia"><span class="selo">' + esc(im.tipo) + '</span><div class="placa" aria-hidden="true"><div><small>' + esc(im.cidade) + '</small><strong>' + esc(im.bairro) + '</strong></div></div></div>' +
+      '<div class="midia"><span class="selo">' + esc(im.tipo) + '</span>' + topo + '</div>' +
       '<div class="corpo">' +
         '<span class="meta">' + esc(im.bairro) + ' · ' + esc(im.cidade) + '</span>' +
         '<h3>' + esc(im.titulo) + '</h3>' +
         '<p>' + esc(im.resumo) + '</p>' +
         '<ul class="detalhes">' + (im.detalhes || []).map(function (d) { return '<li>' + esc(d) + '</li>'; }).join('') + '</ul>' +
-        '<p class="meta">Finalidade: ' + esc(im.finalidade) + ' · Valor: ' + esc(im.valor) + '</p>' +
-        '<div class="rodape-cartao"><a class="botao botao-primario" href="/contato/?assunto=Imóveis&imovel=' + assunto + '">Consultar condições</a></div>' +
+        '<p class="meta">Valor: ' + esc(im.valor) + '</p>' +
+        '<div class="rodape-cartao">' + botao + '</div>' +
       '</div></article>';
   }
+
+  // ---------- Galeria ----------
+  var dlg = document.createElement('dialog');
+  dlg.className = 'galeria';
+  dlg.innerHTML = '<div class="topo-galeria"><h2 id="galeria-titulo"></h2><button class="fechar" type="button">Fechar</button></div>' +
+    '<div class="palco"><button class="seta ant" type="button" aria-label="Anterior">‹</button><div id="galeria-item"></div><button class="seta prox" type="button" aria-label="Próxima">›</button></div>' +
+    '<p class="legenda-galeria" id="galeria-legenda"></p><div class="miniaturas" id="galeria-miniaturas"></div>';
+  document.body.appendChild(dlg);
+  var galeria = { itens: [], atual: 0 };
+
+  function mostrar(n) {
+    var itens = galeria.itens;
+    galeria.atual = (n + itens.length) % itens.length;
+    var m = itens[galeria.atual];
+    $('galeria-item').innerHTML = m.tipo === 'video'
+      ? '<video src="' + esc(links[m.arquivo]) + '" controls playsinline preload="metadata"></video>'
+      : '<img src="' + esc(links[m.arquivo]) + '" alt="' + esc(m.legenda || '') + '">';
+    $('galeria-legenda').textContent = (m.legenda || '') + ' (' + (galeria.atual + 1) + ' de ' + itens.length + ')';
+    Array.prototype.forEach.call($('galeria-miniaturas').children, function (b, k) { b.setAttribute('aria-current', k === galeria.atual ? 'true' : 'false'); });
+    var ativa = $('galeria-miniaturas').children[galeria.atual];
+    if (ativa && ativa.scrollIntoView) ativa.scrollIntoView({ block: 'nearest', inline: 'center' });
+  }
+
+  function abrirGaleria(im) {
+    galeria.itens = midiaDisponivel(im);
+    $('galeria-titulo').textContent = im.titulo;
+    $('galeria-miniaturas').innerHTML = galeria.itens.map(function (m, k) {
+      return '<button type="button" data-k="' + k + '" aria-label="' + esc(m.legenda || 'Item ' + (k + 1)) + '">' +
+        (m.tipo === 'video' ? '▶ Vídeo' : '<img src="' + esc(links[m.thumb] || links[m.arquivo]) + '" alt="">') + '</button>';
+    }).join('');
+    dlg.showModal();
+    mostrar(0);
+  }
+
+  dlg.addEventListener('click', function (e) {
+    if (e.target === dlg || e.target.closest('.fechar')) { dlg.close(); return; }
+    if (e.target.closest('.ant')) mostrar(galeria.atual - 1);
+    if (e.target.closest('.prox')) mostrar(galeria.atual + 1);
+    var mini = e.target.closest('[data-k]');
+    if (mini) mostrar(+mini.getAttribute('data-k'));
+  });
+  dlg.addEventListener('keydown', function (e) {
+    if (e.key === 'ArrowLeft') mostrar(galeria.atual - 1);
+    if (e.key === 'ArrowRight') mostrar(galeria.atual + 1);
+  });
+  dlg.addEventListener('close', function () { $('galeria-item').innerHTML = ''; });
+
+  $('area-imoveis').addEventListener('click', function (e) {
+    var b = e.target.closest('[data-galeria]');
+    if (b) abrirGaleria(imoveis[+b.getAttribute('data-galeria')]);
+  });
 
   async function abrirPainel() {
     var acesso = await sb.rpc('c1972_meu_acesso');
@@ -45,8 +122,10 @@
     }
     var lista = await sb.rpc('c1972_listar_imoveis');
     if (lista.error) { aviso('Não foi possível carregar os imóveis: ' + lista.error.message, true); return; }
+    imoveis = lista.data || [];
+    await assinar(imoveis);
     $('area-nome').textContent = acesso.data[0].nome;
-    $('area-imoveis').innerHTML = lista.data.length ? lista.data.map(cartao).join('') : '<p>Nenhum imóvel disponível no momento.</p>';
+    $('area-imoveis').innerHTML = imoveis.length ? imoveis.map(cartao).join('') : '<p>Nenhum imóvel disponível no momento.</p>';
     login.classList.add('oculto');
     painel.classList.remove('oculto');
     aviso('');
