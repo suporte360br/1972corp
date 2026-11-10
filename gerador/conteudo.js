@@ -1,54 +1,7 @@
-// Conteúdo do site 1972corp: imóveis e matérias do blog.
+// Conteúdo do site 1972corp: matérias do blog.
 // Depois de editar, rode: node gerador/gerar.js
 
-exports.imoveis = [
-  {
-    slug: 'sala-comercial-parque-da-mooca',
-    titulo: 'Sala comercial no Parque da Mooca',
-    cidade: 'São Paulo – SP',
-    bairro: 'Parque da Mooca',
-    tipo: 'Comercial',
-    resumo: 'Conjunto de 36 m² em andar alto, com duas salas, banheiros e copa, em localização privilegiada.',
-    detalhes: [
-      '36 m² de área',
-      '2 salas, cada uma com banheiro',
-      'Copa em uma das salas',
-      'Andar alto',
-      'Localização privilegiada no Parque da Mooca'
-    ],
-    imagem: 'parque-da-mooca.jpg',
-    imagemAlt: 'Fachada do edifício comercial no Parque da Mooca, São Paulo',
-    imagemLargura: 219,
-    imagemAltura: 438
-  },
-  {
-    slug: 'casa-terrea-terras-de-arieta-sorocaba',
-    titulo: 'Casa térrea em Terras de Arieta',
-    cidade: 'Sorocaba – SP',
-    bairro: 'Terras de Arieta',
-    tipo: 'Residencial',
-    resumo: 'Casa térrea com cozinha e sala integradas, suíte, duas vagas de garagem e quintal nos fundos.',
-    detalhes: [
-      'Cozinha e sala em conceito aberto',
-      '1 quarto e 1 suíte',
-      'Banheiro social',
-      '2 vagas de garagem',
-      'Lavanderia e quintal nos fundos'
-    ]
-  },
-  {
-    slug: 'imovel-mooca-sao-paulo',
-    titulo: 'Imóvel na Mooca',
-    cidade: 'São Paulo – SP',
-    bairro: 'Mooca',
-    tipo: 'Sob consulta',
-    resumo: 'Novo imóvel na Mooca. Fale com a gente para receber a descrição completa e as condições.',
-    detalhes: [
-      'Detalhes sob consulta',
-      'Bairro tradicional, com fácil acesso ao centro'
-    ]
-  }
-];
+// Os imóveis ficam só na área do cliente (Supabase, tabela c1972_imoveis); ver Projetos IA/1972corp-backend.
 
 // Matérias do blog (mais recentes primeiro na listagem).
 exports.materias = [

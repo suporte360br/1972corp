@@ -3,7 +3,7 @@
 const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
-const { imoveis, materias } = require('./conteudo');
+const { materias } = require('./conteudo');
 
 const RAIZ = path.join(__dirname, '..');
 const SITE = 'https://1972corp.com.br';
@@ -33,6 +33,7 @@ const MENU = [
   ['/imoveis/', 'Imóveis'],
   ['/sobre/', 'Sobre'],
   ['/blog/', 'Blog'],
+  ['/area/', 'Área do cliente'],
 ];
 
 function pagina({ caminho, titulo, descricao, conteudo, imagem = 'og.jpg', tipo = 'website', jsonld = [], semIndex = false, preload = '' }) {
@@ -151,25 +152,17 @@ function trilha(itens) {
   return { html: `<nav class="trilha" aria-label="Você está em"><ol>${lis}</ol></nav>`, ld };
 }
 
-function midiaImovel(im, carregar = 'lazy') {
-  if (im.imagem) {
-    return `<img src="/assets/img/${im.imagem}" alt="${esc(im.imagemAlt)}" width="${im.imagemLargura || 1200}" height="${im.imagemAltura || 800}" loading="${carregar}" style="object-position:center 30%">`;
-  }
-  return `<div class="placa" role="img" aria-label="${esc(im.titulo)}"><div><small>Foto em breve</small><strong>${esc(im.bairro)}</strong><span>${esc(im.cidade)}</span></div></div>`;
-}
-
-function cartaoImovel(im, completo = false) {
-  const contato = `/contato/?assunto=Imóveis&imovel=${encodeURIComponent(im.titulo + ' – ' + im.cidade)}`;
-  return `<article class="cartao imovel" id="${im.slug}">
-        <div class="midia"><span class="selo">${esc(im.tipo)}</span>${midiaImovel(im)}</div>
-        <div class="corpo">
-          <span class="meta">${esc(im.bairro)} · ${esc(im.cidade)}</span>
-          <h3>${esc(im.titulo)}</h3>
-          ${completo ? `<ul class="detalhes">${im.detalhes.map(d => `<li>${esc(d)}</li>`).join('')}</ul>` : `<p>${esc(im.resumo)}</p>`}
-          <div class="rodape-cartao"><a class="botao ${completo ? 'botao-primario' : 'botao-contorno'}" href="${completo ? contato : '/imoveis/#' + im.slug}">${completo ? 'Consultar condições' : 'Ver detalhes'}</a></div>
-        </div>
-      </article>`;
-}
+// Os dados dos imóveis ficam só na área do cliente (/area/), no Supabase; o site público não os mostra.
+const CHAMADA_AREA = `<div class="chamada">
+          <div>
+            <h2>Imóveis disponíveis para clientes cadastrados</h2>
+            <p>Os detalhes, valores e condições dos imóveis ficam na área do cliente. Ainda não tem acesso? Fale com a gente.</p>
+          </div>
+          <div style="display:flex;gap:12px;flex-wrap:wrap">
+            <a class="botao botao-primario" href="/area/">Área do cliente</a>
+            <a class="botao botao-contorno" href="/contato/?assunto=Imóveis">Quero ser cliente</a>
+          </div>
+        </div>`;
 
 // Imagem em WebP (dois tamanhos) com JPEG de reserva; arquivos gerados por gerador/imagens.js
 function foto(base, alt, w, h, { larguras = [600, 1200], sizes = '(max-width: 760px) 100vw, 400px', attrs = 'loading="lazy"', jpg = base + '.jpg' } = {}) {
@@ -214,7 +207,7 @@ const ORG = {
 
 const FAQ = [
   ['Os imóveis são para locação ou venda?', 'As condições variam conforme o imóvel. Entre em contato informando o imóvel de interesse e enviamos valores, condições e disponibilidade para visita.'],
-  ['Em quais cidades a 1972corp atua?', 'Hoje administramos imóveis em São Paulo (Mooca e Parque da Mooca) e em Sorocaba (Terras de Arieta).'],
+  ['Em quais cidades a 1972corp atua?', 'Hoje administramos imóveis em São Paulo e em Sorocaba.'],
   ['Quais garantias de aluguel são aceitas?', 'A Lei do Inquilinato permite caução, fiança, seguro-fiança ou cessão de quotas de fundo de investimento, uma por contrato. A modalidade é combinada caso a caso, de acordo com o imóvel e o perfil do inquilino.'],
   ['Como agendar uma visita?', 'Envie uma mensagem pela página de contato ou para contato@1972corp.com.br com o imóvel de interesse e os melhores dias e horários. Respondemos com as opções disponíveis.'],
 ];
@@ -277,15 +270,8 @@ paginas['index.html'] = pagina({
 
     <section class="secao secao-alt" aria-labelledby="imoveis-titulo">
       <div class="container">
-        <div class="secao-cabeca">
-          <span class="sobretitulo">Portfólio</span>
-          <h2 id="imoveis-titulo">Imóveis em destaque</h2>
-          <p>Conheça os imóveis administrados pela 1972corp em São Paulo e Sorocaba.</p>
-        </div>
-        <div class="grade grade-3">
-      ${imoveis.map(im => cartaoImovel(im)).join('\n      ')}
-        </div>
-        <p style="margin-top:28px"><a class="botao botao-contorno" href="/imoveis/">Ver todos os imóveis</a></p>
+        <span class="sobretitulo" id="imoveis-titulo">Portfólio</span>
+        ${CHAMADA_AREA}
       </div>
     </section>
 
@@ -347,29 +333,19 @@ paginas['index.html'] = pagina({
   paginas['imoveis/index.html'] = pagina({
     caminho: '/imoveis/',
     titulo: 'Imóveis para alugar em São Paulo e Sorocaba',
-    descricao: 'Sala comercial no Parque da Mooca, casa térrea em Terras de Arieta (Sorocaba) e imóvel na Mooca. Veja detalhes e consulte condições.',
-    jsonld: [t.ld, {
-      '@context': 'https://schema.org', '@type': 'ItemList', name: 'Imóveis administrados pela 1972corp',
-      itemListElement: imoveis.map((im, i) => ({
-        '@type': 'ListItem', position: i + 1,
-        item: { '@type': 'Accommodation', name: im.titulo, description: im.resumo, url: `${SITE}/imoveis/#${im.slug}`,
-          address: { '@type': 'PostalAddress', addressLocality: im.cidade.split(' – ')[0], addressRegion: 'SP', addressCountry: 'BR' } }
-      }))
-    }],
+    descricao: 'Salas comerciais e residências administradas pela 1972corp em São Paulo e Sorocaba. Detalhes e condições na área do cliente.',
+    jsonld: [t.ld],
     conteudo: `
     <section class="cabecalho-pagina">
       <div class="container">
         ${t.html}
         <h1>Imóveis</h1>
-        <p>Imóveis residenciais e comerciais administrados diretamente pela 1972corp. Escolha um e clique em “Consultar condições” para receber valores e agendar visita.</p>
+        <p>A 1972corp administra salas comerciais e residências em São Paulo e Sorocaba, com atendimento direto ao inquilino.</p>
       </div>
     </section>
     <section class="secao">
       <div class="container">
-        <div class="grade grade-3">
-      ${imoveis.map(im => cartaoImovel(im, true)).join('\n      ')}
-        </div>
-        <p class="legenda" style="margin-top:20px">Disponibilidade e condições sujeitas a confirmação no momento do contato.</p>
+        ${CHAMADA_AREA}
       </div>
     </section>
     <section class="secao secao-alt">
@@ -462,7 +438,7 @@ paginas['index.html'] = pagina({
         </form>
         <div class="contato-info">
           <div class="item"><div class="icone">${icones.email}</div><div><h3>E-mail</h3><p><a href="mailto:${EMAIL}">${EMAIL}</a></p></div></div>
-          <div class="item"><div class="icone">${icones.mapa}</div><div><h3>Onde atuamos</h3><p>São Paulo – SP (Mooca e Parque da Mooca)<br>Sorocaba – SP (Terras de Arieta)</p></div></div>
+          <div class="item"><div class="icone">${icones.mapa}</div><div><h3>Onde atuamos</h3><p>São Paulo – SP<br>Sorocaba – SP</p></div></div>
           <div class="item"><div class="icone">${icones.relogio}</div><div><h3>Retorno</h3><p>Respondemos as mensagens em dias úteis.</p></div></div>
         </div>
       </div>
@@ -580,6 +556,45 @@ for (const m of ordenadas) {
   });
 }
 
+// Área do cliente (login por código SMS; dados vêm do Supabase, ver Projetos IA/1972corp-backend)
+paginas['area/index.html'] = pagina({
+  caminho: '/area/',
+  titulo: 'Área do cliente',
+  descricao: 'Área restrita aos clientes cadastrados da 1972corp.',
+  semIndex: true,
+  conteudo: `
+    <section class="cabecalho-pagina">
+      <div class="container">
+        <h1>Área do cliente</h1>
+        <p>Acesso restrito aos clientes cadastrados da 1972corp.</p>
+      </div>
+    </section>
+    <section class="secao">
+      <div class="container" style="max-width:560px" id="area-login">
+        <form class="formulario" id="form-celular">
+          <label>Celular com DDD<input name="celular" type="tel" inputmode="tel" autocomplete="tel" placeholder="(11) 99999-9999" required></label>
+          <button class="botao botao-primario" type="submit">Receber código por SMS</button>
+          <small>Enviaremos um código de 6 dígitos para o celular cadastrado.</small>
+        </form>
+        <form class="formulario oculto" id="form-codigo" style="margin-top:16px">
+          <label>Código recebido por SMS<input name="codigo" inputmode="numeric" autocomplete="one-time-code" pattern="[0-9]{6}" maxlength="6" required></label>
+          <button class="botao botao-primario" type="submit">Entrar</button>
+          <button class="botao botao-contorno" type="button" id="trocar-celular">Usar outro celular</button>
+        </form>
+        <p id="area-msg" role="status" aria-live="polite" style="margin-top:16px"></p>
+      </div>
+      <div class="container oculto" id="area-painel">
+        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:24px">
+          <p style="margin:0">Olá, <strong id="area-nome"></strong>.</p>
+          <button class="botao botao-contorno" type="button" id="sair">Sair</button>
+        </div>
+        <div class="grade grade-3" id="area-imoveis"></div>
+      </div>
+    </section>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.3/dist/umd/supabase.js" defer></script>
+    <script src="/assets/js/area.js?v=${hash('assets/js/area.js')}" defer></script>`
+});
+
 // 404
 paginas['404.html'] = pagina({
   caminho: '/404.html',
@@ -622,6 +637,6 @@ fs.writeFileSync(path.join(RAIZ, 'sitemap.xml'),
   `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n` +
   urls.map(([u, p, d]) => `  <url><loc>${SITE}${u}</loc><lastmod>${d || HOJE}</lastmod><priority>${p}</priority></url>`).join('\n') +
   `\n</urlset>\n`);
-fs.writeFileSync(path.join(RAIZ, 'robots.txt'), `User-agent: *\nAllow: /\nDisallow: /gerador/\n\nSitemap: ${SITE}/sitemap.xml\n`);
+fs.writeFileSync(path.join(RAIZ, 'robots.txt'), `User-agent: *\nAllow: /\nDisallow: /gerador/\nDisallow: /area/\n\nSitemap: ${SITE}/sitemap.xml\n`);
 
 console.log(`${Object.keys(paginas).length} páginas geradas (css v=${V_CSS}, js v=${V_JS}).`);
