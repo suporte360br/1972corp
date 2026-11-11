@@ -1,6 +1,5 @@
 User-agent: *
 Allow: /
 Disallow: /gerador/
-Disallow: /area/
 
 Sitemap: https://1972corp.com.br/sitemap.xml

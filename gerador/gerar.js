@@ -32,7 +32,6 @@ const MENU = [
   ['/', 'Início'],
   ['/sobre/', 'Sobre'],
   ['/blog/', 'Blog'],
-  ['/area/', 'Área do cliente'],
 ];
 
 function pagina({ caminho, titulo, descricao, conteudo, imagem = 'og.jpg', tipo = 'website', jsonld = [], semIndex = false, preload = '' }) {
@@ -108,7 +107,7 @@ ${conteudo}
       <div class="colunas">
         <div>
           <img class="logo-rodape" src="/assets/img/logo.png" alt="Logotipo 1972corp" width="64" height="64" loading="lazy">
-          <p>Administração de imóveis residenciais e comerciais em São Paulo, com transparência e atendimento direto.</p>
+          <p>Holding empresarial que reúne participações societárias e patrimônio imobiliário em São Paulo, com gestão profissional e visão de longo prazo.</p>
         </div>
         <div>
           <h2>Navegação</h2>
@@ -129,7 +128,7 @@ ${conteudo}
       </div>
       <div class="base">
         <span>© <span id="ano">${new Date().getFullYear()}</span> 1972corp. Marca registrada no INPI.</span>
-        <span>Administração de imóveis</span>
+        <span>Holding empresarial</span>
       </div>
     </div>
   </footer>
@@ -149,18 +148,6 @@ function trilha(itens) {
   };
   return { html: `<nav class="trilha" aria-label="Você está em"><ol>${lis}</ol></nav>`, ld };
 }
-
-// Os dados dos imóveis ficam só na área do cliente (/area/), no Supabase; o site público não os mostra.
-const CHAMADA_AREA = `<div class="chamada">
-          <div>
-            <h2>Imóveis disponíveis para clientes cadastrados</h2>
-            <p>Os detalhes, valores e condições dos imóveis ficam na área do cliente. Ainda não tem acesso? Fale com a gente.</p>
-          </div>
-          <div style="display:flex;gap:12px;flex-wrap:wrap">
-            <a class="botao botao-primario" href="/area/">Área do cliente</a>
-            <a class="botao botao-contorno" href="/contato/?assunto=Imóveis">Quero ser cliente</a>
-          </div>
-        </div>`;
 
 // Imagem em WebP (dois tamanhos) com JPEG de reserva; arquivos gerados por gerador/imagens.js
 function foto(base, alt, w, h, { larguras = [600, 1200], sizes = '(max-width: 760px) 100vw, 400px', attrs = 'loading="lazy"', jpg = base + '.jpg' } = {}) {
@@ -190,24 +177,24 @@ function cartaoMateria(m) {
 
 const ORG = {
   '@context': 'https://schema.org',
-  '@type': 'RealEstateAgent',
+  '@type': 'Organization',
   '@id': SITE + '/#organizacao',
   name: NOME,
   url: SITE + '/',
   logo: SITE + '/assets/img/logo.png',
   image: SITE + '/assets/img/og.jpg',
   email: EMAIL,
-  description: 'Administração de imóveis residenciais e comerciais em São Paulo.',
+  description: 'Holding empresarial em São Paulo: participações societárias, patrimônio imobiliário e governança.',
   areaServed: [{ '@type': 'City', name: 'São Paulo' }],
   address: { '@type': 'PostalAddress', addressLocality: 'São Paulo', addressRegion: 'SP', addressCountry: 'BR' },
-  knowsAbout: ['Administração de imóveis', 'Locação residencial', 'Locação comercial', 'Galpões', 'Holding patrimonial']
+  knowsAbout: ['Holding empresarial', 'Participações societárias', 'Gestão de patrimônio', 'Administração de imóveis', 'Governança corporativa']
 };
 
 const FAQ = [
-  ['Os imóveis são para locação ou venda?', 'As condições variam conforme o imóvel. Entre em contato informando o imóvel de interesse e enviamos valores, condições e disponibilidade para visita.'],
-  ['Onde a 1972corp atua?', 'Hoje administramos imóveis residenciais e comerciais em São Paulo – SP.'],
-  ['Quais garantias de aluguel são aceitas?', 'A Lei do Inquilinato permite caução, fiança, seguro-fiança ou cessão de quotas de fundo de investimento, uma por contrato. A modalidade é combinada caso a caso, de acordo com o imóvel e o perfil do inquilino.'],
-  ['Como agendar uma visita?', 'Envie uma mensagem pela página de contato ou para contato@1972corp.com.br com o imóvel de interesse e os melhores dias e horários. Respondemos com as opções disponíveis.'],
+  ['O que é uma holding empresarial?', 'É uma empresa cuja função principal é deter participações em outras empresas e bens, como imóveis. Ela centraliza o controle, a gestão e as decisões estratégicas do grupo em uma única estrutura.'],
+  ['Qual a diferença entre holding empresarial e holding familiar?', 'A holding familiar tem como foco organizar o patrimônio de uma família e planejar a sucessão. A holding empresarial tem como foco o controle de empresas e ativos com visão de negócio: governança, alocação de capital e crescimento. Uma mesma estrutura pode cumprir os dois papéis.'],
+  ['A 1972corp administra imóveis?', 'Sim. O patrimônio imobiliário do grupo, com imóveis residenciais e comerciais em São Paulo, é administrado diretamente pela 1972corp.'],
+  ['Como falar com a 1972corp?', 'Pela página de contato ou pelo e-mail contato@1972corp.com.br. Respondemos em dias úteis.'],
 ];
 
 // ---------- Páginas ----------
@@ -216,8 +203,8 @@ const paginas = {};
 // Início
 paginas['index.html'] = pagina({
   caminho: '/',
-  titulo: '1972corp | Administração de imóveis em São Paulo',
-  descricao: 'Imóveis residenciais e comerciais para alugar em São Paulo, com administração direta, contratos claros e atendimento próximo.',
+  titulo: '1972corp | Holding empresarial em São Paulo',
+  descricao: 'A 1972corp é uma holding empresarial em São Paulo que reúne participações societárias e patrimônio imobiliário, com gestão profissional e governança.',
   preload: '<link rel="preload" as="image" type="image/webp" imagesrcset="/assets/img/hero-800.webp 800w, /assets/img/hero-1600.webp 1600w" imagesizes="100vw">\n  ',
   jsonld: [ORG, {
     '@context': 'https://schema.org', '@type': 'WebSite', '@id': SITE + '/#site', url: SITE + '/', name: NOME, inLanguage: 'pt-BR', publisher: { '@id': SITE + '/#organizacao' }
@@ -229,11 +216,11 @@ paginas['index.html'] = pagina({
     <section class="hero">
       ${foto('hero', '', 1600, 900, { larguras: [800, 1600], sizes: '100vw', attrs: 'fetchpriority="high"' })}
       <div class="container">
-        <span class="sobretitulo">Administração de imóveis</span>
-        <h1>Imóveis bem cuidados, contratos claros e atendimento direto</h1>
-        <p>A 1972corp administra imóveis residenciais e comerciais em São Paulo. Você fala direto com quem cuida do imóvel, sem intermediários.</p>
+        <span class="sobretitulo">Holding empresarial</span>
+        <h1>Participações, patrimônio e governança sob uma gestão única</h1>
+        <p>A 1972corp é a holding que reúne participações societárias e o patrimônio imobiliário do grupo, com gestão profissional, controles claros e visão de longo prazo.</p>
         <div class="acoes">
-          <a class="botao botao-primario" href="/imoveis/">Ver imóveis disponíveis</a>
+          <a class="botao botao-primario" href="/sobre/">Conheça a 1972corp</a>
           <a class="botao botao-claro" href="/contato/">Fale com a gente</a>
         </div>
       </div>
@@ -243,47 +230,40 @@ paginas['index.html'] = pagina({
       <div class="container">
         <div class="secao-cabeca">
           <span class="sobretitulo">O que fazemos</span>
-          <h2 id="servicos-titulo">Administração completa do imóvel</h2>
-          <p>Da escolha do inquilino à manutenção, cuidamos de cada etapa para que o imóvel renda bem e o inquilino se sinta em casa.</p>
+          <h2 id="servicos-titulo">Uma holding para organizar e fazer crescer o patrimônio</h2>
+          <p>Concentramos empresas e bens em uma estrutura única, com decisões estratégicas, controle financeiro e prestação de contas.</p>
         </div>
         <div class="grade grade-3">
           <div class="servico">
-            <div class="icone">${icones.chave}</div>
-            <h3>Locação residencial</h3>
-            <ul><li>Casas e apartamentos prontos para morar</li><li>Análise cadastral transparente</li><li>Contrato conforme a Lei do Inquilinato</li></ul>
+            <div class="icone">${icones.predio}</div>
+            <h3>Participações societárias</h3>
+            <ul><li>Controle e acompanhamento das empresas do grupo</li><li>Planejamento de capital e de investimentos</li><li>Indicadores e prestação de contas periódica</li></ul>
           </div>
           <div class="servico">
-            <div class="icone">${icones.predio}</div>
-            <h3>Imóveis comerciais</h3>
-            <ul><li>Salas comerciais e galpões</li><li>Contratos com prazo e garantias adequados</li><li>Apoio na adaptação do espaço</li></ul>
+            <div class="icone">${icones.chave}</div>
+            <h3>Patrimônio imobiliário</h3>
+            <ul><li>Imóveis residenciais e comerciais próprios</li><li>Locação, manutenção e contratos em dia</li><li>Documentação e impostos organizados</li></ul>
           </div>
           <div class="servico">
             <div class="icone">${icones.escudo}</div>
-            <h3>Gestão do patrimônio</h3>
-            <ul><li>Reajustes, cobranças e recibos em dia</li><li>Vistorias de entrada e saída documentadas</li><li>Manutenção preventiva e IPTU organizados</li></ul>
+            <h3>Governança e planejamento</h3>
+            <ul><li>Estrutura societária e tributária revisada com especialistas</li><li>Política de distribuição de resultados</li><li>Planejamento de longo prazo</li></ul>
           </div>
         </div>
-      </div>
-    </section>
-
-    <section class="secao secao-alt" aria-labelledby="imoveis-titulo">
-      <div class="container">
-        <span class="sobretitulo" id="imoveis-titulo">Portfólio</span>
-        ${CHAMADA_AREA}
       </div>
     </section>
 
     <section class="secao faixa" aria-labelledby="como-titulo">
       <div class="container">
         <div class="secao-cabeca">
-          <span class="sobretitulo">Como funciona</span>
-          <h2 id="como-titulo">Do primeiro contato à entrega das chaves</h2>
+          <span class="sobretitulo">Como atuamos</span>
+          <h2 id="como-titulo">Gestão com método</h2>
         </div>
         <div class="grade grade-3" style="grid-template-columns:repeat(auto-fit,minmax(220px,1fr))">
-          <div class="item"><h3>1. Escolha</h3><p>Veja os imóveis disponíveis e escolha o que combina com você ou com o seu negócio.</p></div>
-          <div class="item"><h3>2. Contato e visita</h3><p>Envie uma mensagem. Respondemos com condições e agendamos a visita.</p></div>
-          <div class="item"><h3>3. Análise e contrato</h3><p>Análise cadastral, escolha da garantia e contrato claro, sem letras miúdas.</p></div>
-          <div class="item"><h3>4. Chaves na mão</h3><p>Vistoria de entrada com fotos e atendimento direto durante toda a locação.</p></div>
+          <div class="item"><h3>1. Diagnóstico</h3><p>Levantamento de empresas, imóveis, contratos, dívidas e resultados.</p></div>
+          <div class="item"><h3>2. Estrutura</h3><p>Organização societária, tributária e documental, com assessoria especializada.</p></div>
+          <div class="item"><h3>3. Gestão</h3><p>Acompanhamento das empresas e do patrimônio, com controles e metas.</p></div>
+          <div class="item"><h3>4. Prestação de contas</h3><p>Relatórios periódicos e decisões registradas, com transparência entre os sócios.</p></div>
         </div>
       </div>
     </section>
@@ -292,8 +272,8 @@ paginas['index.html'] = pagina({
       <div class="container">
         <div class="secao-cabeca">
           <span class="sobretitulo">Blog</span>
-          <h2 id="blog-titulo">Conteúdo para proprietários e inquilinos</h2>
-          <p>Guias práticos sobre locação, contratos e organização do patrimônio imobiliário.</p>
+          <h2 id="blog-titulo">Gestão de patrimônio, holding e imóveis</h2>
+          <p>Guias práticos sobre holding, organização do patrimônio, contratos e imóveis.</p>
         </div>
         <div class="grade grade-3">
       ${ordenadas.slice(0, 3).map(cartaoMateria).join('\n      ')}
@@ -316,8 +296,8 @@ paginas['index.html'] = pagina({
       <div class="container">
         <div class="chamada">
           <div>
-            <h2>Procurando um imóvel em São Paulo?</h2>
-            <p>Conte o que você precisa e retornamos com as opções disponíveis.</p>
+            <h2>Quer conversar com a 1972corp?</h2>
+            <p>Para parcerias, negócios, locação de imóveis ou outros assuntos, fale com a gente.</p>
           </div>
           <a class="botao botao-primario" href="/contato/">Entrar em contato</a>
         </div>
@@ -325,40 +305,8 @@ paginas['index.html'] = pagina({
     </section>`
 });
 
-// Imóveis
-{
-  const t = trilha([['/', 'Início'], ['/imoveis/', 'Imóveis']]);
-  paginas['imoveis/index.html'] = pagina({
-    caminho: '/imoveis/',
-    titulo: 'Imóveis para alugar em São Paulo',
-    descricao: 'Salas comerciais e residências administradas pela 1972corp em São Paulo. Detalhes e condições na área do cliente.',
-    jsonld: [t.ld],
-    conteudo: `
-    <section class="cabecalho-pagina">
-      <div class="container">
-        ${t.html}
-        <h1>Imóveis</h1>
-        <p>A 1972corp administra salas comerciais e residências em São Paulo, com atendimento direto ao inquilino.</p>
-      </div>
-    </section>
-    <section class="secao">
-      <div class="container">
-        ${CHAMADA_AREA}
-      </div>
-    </section>
-    <section class="secao secao-alt">
-      <div class="container">
-        <div class="chamada" style="background:var(--papel)">
-          <div>
-            <h2>Não encontrou o que procura?</h2>
-            <p>Conte o tipo de imóvel e a região que você precisa. Avisamos quando surgir uma opção.</p>
-          </div>
-          <a class="botao botao-primario" href="/contato/?assunto=Imóveis">Deixar meu interesse</a>
-        </div>
-      </div>
-    </section>`
-  });
-}
+// /imoveis/ deixou de existir (área do cliente foi para o Mana Vivaro): redireciona para a página inicial
+paginas['imoveis/index.html'] = redirecionar('/');
 
 // Sobre
 {
@@ -366,22 +314,22 @@ paginas['index.html'] = pagina({
   paginas['sobre/index.html'] = pagina({
     caminho: '/sobre/',
     titulo: 'Sobre a 1972corp',
-    descricao: 'Conheça a 1972corp, marca de administração de imóveis registrada no INPI, com atuação em São Paulo e atendimento direto ao inquilino.',
+    descricao: 'Conheça a 1972corp, holding empresarial em São Paulo que reúne participações societárias e patrimônio imobiliário, com marca registrada no INPI.',
     jsonld: [t.ld, ORG],
     conteudo: `
     <section class="cabecalho-pagina">
       <div class="container">
         ${t.html}
         <h1>Sobre a 1972corp</h1>
-        <p>Administração de imóveis com olhar de dono: cuidado com o patrimônio e respeito a quem mora ou trabalha nele.</p>
+        <p>Holding empresarial com visão de longo prazo: governança, disciplina financeira e patrimônio bem cuidado.</p>
       </div>
     </section>
     <section class="secao">
       <div class="container grade grade-2" style="align-items:center">
         <div>
           <h2>Quem somos</h2>
-          <p>A 1972corp é uma marca de <strong>administração de imóveis</strong>, registrada no Instituto Nacional da Propriedade Industrial (INPI). Cuidamos de imóveis residenciais e comerciais em São Paulo, do anúncio à manutenção.</p>
-          <p>Nosso modelo é simples: atendimento direto, sem camadas de intermediação. Quem fala com você é quem conhece o imóvel e pode resolver.</p>
+          <p>A 1972corp é uma <strong>holding empresarial</strong> com sede em São Paulo. Reúne participações societárias e o patrimônio imobiliário do grupo em uma estrutura única, com gestão profissional. A marca é registrada no Instituto Nacional da Propriedade Industrial (INPI).</p>
+          <p>Nosso papel é dar direção ao conjunto: definir prioridades, acompanhar resultados, cuidar dos imóveis e manter a estrutura societária e tributária em ordem.</p>
           <a class="botao botao-primario" href="/contato/">Fale com a gente</a>
         </div>
         <div style="border-radius:var(--raio);border:1px solid var(--linha);overflow:hidden">${foto('casa-card', 'Casa moderna com fachada de vidro e jardim iluminado ao entardecer (imagem ilustrativa)', 1200, 800, { sizes: '(max-width: 760px) 100vw, 560px' })}</div>
@@ -391,9 +339,9 @@ paginas['index.html'] = pagina({
       <div class="container">
         <div class="secao-cabeca"><h2>No que acreditamos</h2></div>
         <div class="grade grade-3">
-          <div class="servico"><div class="icone">${icones.escudo}</div><h3>Transparência</h3><p>Contratos claros, reajustes explicados com cálculo e fonte do índice, recibos sempre em dia.</p></div>
-          <div class="servico"><div class="icone">${icones.chave}</div><h3>Imóvel bem cuidado</h3><p>Vistoria documentada com fotos e manutenção preventiva para evitar surpresas dos dois lados.</p></div>
-          <div class="servico"><div class="icone">${icones.relogio}</div><h3>Relação de longo prazo</h3><p>Um bom inquilino vale mais que um aluguel alto. Buscamos acordos justos e duradouros.</p></div>
+          <div class="servico"><div class="icone">${icones.escudo}</div><h3>Governança</h3><p>Decisões registradas, regras claras entre os sócios e prestação de contas periódica.</p></div>
+          <div class="servico"><div class="icone">${icones.chave}</div><h3>Patrimônio bem cuidado</h3><p>Imóveis com manutenção em dia, contratos claros e documentação organizada.</p></div>
+          <div class="servico"><div class="icone">${icones.relogio}</div><h3>Visão de longo prazo</h3><p>Crescimento sustentável vale mais que ganho rápido. Pensamos em gerações, não em trimestres.</p></div>
         </div>
       </div>
     </section>`
@@ -406,14 +354,14 @@ paginas['index.html'] = pagina({
   paginas['contato/index.html'] = pagina({
     caminho: '/contato/',
     titulo: 'Contato',
-    descricao: 'Fale com a 1972corp para consultar imóveis, agendar visitas ou tirar dúvidas sobre locação em São Paulo. E-mail: contato@1972corp.com.br.',
+    descricao: 'Fale com a 1972corp: parcerias, negócios, locação de imóveis e outros assuntos. E-mail: contato@1972corp.com.br.',
     jsonld: [t.ld, { '@context': 'https://schema.org', '@type': 'ContactPage', url: SITE + '/contato/', about: { '@id': SITE + '/#organizacao' } }],
     conteudo: `
     <section class="cabecalho-pagina">
       <div class="container">
         ${t.html}
         <h1>Contato</h1>
-        <p>Quer saber condições de um imóvel, agendar visita ou tirar uma dúvida? Mande sua mensagem.</p>
+        <p>Parcerias, negócios, locação de imóveis ou outro assunto? Mande sua mensagem.</p>
       </div>
     </section>
     <section class="secao">
@@ -424,8 +372,8 @@ paginas['index.html'] = pagina({
           <label>Telefone <small>(opcional)</small><input name="telefone" type="tel" autocomplete="tel"></label>
           <label>Assunto
             <select name="assunto">
-              <option>Imóveis</option>
-              <option>Agendar visita</option>
+              <option>Parcerias e negócios</option>
+              <option>Locação de imóveis</option>
               <option>Sou inquilino</option>
               <option>Outro assunto</option>
             </select>
@@ -450,8 +398,8 @@ paginas['index.html'] = pagina({
   const temas = [...new Set(ordenadas.map(m => m.tema))];
   paginas['blog/index.html'] = pagina({
     caminho: '/blog/',
-    titulo: 'Blog: locação, imóveis comerciais e patrimônio',
-    descricao: 'Guias práticos para proprietários e inquilinos: garantias de aluguel, vistoria, reajuste, galpões, renovação comercial e holding patrimonial.',
+    titulo: 'Blog: holding, patrimônio e imóveis',
+    descricao: 'Guias práticos sobre holding, organização do patrimônio e imóveis: holding patrimonial, garantias de aluguel, vistoria, reajuste, galpões e renovação comercial.',
     jsonld: [t.ld, {
       '@context': 'https://schema.org', '@type': 'Blog', name: 'Blog 1972corp', url: SITE + '/blog/', inLanguage: 'pt-BR',
       publisher: { '@id': SITE + '/#organizacao' },
@@ -550,45 +498,6 @@ for (const m of ordenadas) {
   });
 }
 
-// Área do cliente (login por código SMS; dados vêm do Supabase, ver Projetos IA/1972corp-backend)
-paginas['area/index.html'] = pagina({
-  caminho: '/area/',
-  titulo: 'Área do cliente',
-  descricao: 'Área restrita aos clientes cadastrados da 1972corp.',
-  semIndex: true,
-  conteudo: `
-    <section class="cabecalho-pagina">
-      <div class="container">
-        <h1>Área do cliente</h1>
-        <p>Acesso restrito aos clientes cadastrados da 1972corp.</p>
-      </div>
-    </section>
-    <section class="secao">
-      <div class="container" style="max-width:560px" id="area-login">
-        <form class="formulario" id="form-celular">
-          <label>Celular com DDD<input name="celular" type="tel" inputmode="tel" autocomplete="tel" placeholder="(11) 99999-9999" required></label>
-          <button class="botao botao-primario" type="submit">Receber código por SMS</button>
-          <small>Enviaremos um código de 6 dígitos para o celular cadastrado.</small>
-        </form>
-        <form class="formulario oculto" id="form-codigo" style="margin-top:16px">
-          <label>Código recebido por SMS<input name="codigo" inputmode="numeric" autocomplete="one-time-code" pattern="[0-9]{6}" maxlength="6" required></label>
-          <button class="botao botao-primario" type="submit">Entrar</button>
-          <button class="botao botao-contorno" type="button" id="trocar-celular">Usar outro celular</button>
-        </form>
-        <p id="area-msg" role="status" aria-live="polite" style="margin-top:16px"></p>
-      </div>
-      <div class="container oculto" id="area-painel">
-        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:24px">
-          <p style="margin:0">Olá, <strong id="area-nome"></strong>.</p>
-          <button class="botao botao-contorno" type="button" id="sair">Sair</button>
-        </div>
-        <div class="grade grade-3" id="area-imoveis"></div>
-      </div>
-    </section>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.3/dist/umd/supabase.js" defer></script>
-    <script src="/assets/js/area.js?v=${hash('assets/js/area.js')}" defer></script>`
-});
-
 // 404
 paginas['404.html'] = pagina({
   caminho: '/404.html',
@@ -602,7 +511,7 @@ paginas['404.html'] = pagina({
         <p>O endereço pode ter mudado. Que tal começar por aqui?</p>
         <p style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:24px">
           <a class="botao botao-primario" href="/">Página inicial</a>
-          <a class="botao botao-contorno" href="/imoveis/">Imóveis</a>
+          <a class="botao botao-contorno" href="/sobre/">Sobre a 1972corp</a>
           <a class="botao botao-contorno" href="/blog/">Blog</a>
         </p>
       </div>
@@ -624,13 +533,13 @@ for (const [arq, html] of Object.entries(paginas)) {
 }
 
 const urls = [
-  ['/', '1.0'], ['/imoveis/', '0.9'], ['/blog/', '0.8'], ['/sobre/', '0.6'], ['/contato/', '0.6'], ['/privacidade/', '0.2'],
+  ['/', '1.0'], ['/blog/', '0.8'], ['/sobre/', '0.6'], ['/contato/', '0.6'], ['/privacidade/', '0.2'],
   ...ordenadas.map(m => [`/blog/${m.slug}/`, '0.7', m.revisado || m.data])
 ];
 fs.writeFileSync(path.join(RAIZ, 'sitemap.xml'),
   `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n` +
   urls.map(([u, p, d]) => `  <url><loc>${SITE}${u}</loc><lastmod>${d || HOJE}</lastmod><priority>${p}</priority></url>`).join('\n') +
   `\n</urlset>\n`);
-fs.writeFileSync(path.join(RAIZ, 'robots.txt'), `User-agent: *\nAllow: /\nDisallow: /gerador/\nDisallow: /area/\n\nSitemap: ${SITE}/sitemap.xml\n`);
+fs.writeFileSync(path.join(RAIZ, 'robots.txt'), `User-agent: *\nAllow: /\nDisallow: /gerador/\n\nSitemap: ${SITE}/sitemap.xml\n`);
 
 console.log(`${Object.keys(paginas).length} páginas geradas (css v=${V_CSS}, js v=${V_JS}).`);
