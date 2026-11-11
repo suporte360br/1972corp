@@ -3,7 +3,7 @@
 const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
-const { materias } = require('./conteudo');
+const { materias, removidas = [] } = require('./conteudo');
 
 const RAIZ = path.join(__dirname, '..');
 const SITE = 'https://1972corp.com.br';
@@ -32,6 +32,7 @@ const MENU = [
   ['/', 'Início'],
   ['/sobre/', 'Sobre'],
   ['/blog/', 'Blog'],
+  ['/area/', 'Área restrita'],
 ];
 
 function pagina({ caminho, titulo, descricao, conteudo, imagem = 'og.jpg', tipo = 'website', jsonld = [], semIndex = false, preload = '' }) {
@@ -272,8 +273,8 @@ paginas['index.html'] = pagina({
       <div class="container">
         <div class="secao-cabeca">
           <span class="sobretitulo">Blog</span>
-          <h2 id="blog-titulo">Gestão de patrimônio, holding e imóveis</h2>
-          <p>Guias práticos sobre holding, organização do patrimônio, contratos e imóveis.</p>
+          <h2 id="blog-titulo">Holding, marcas e patrimônio</h2>
+          <p>Guias sobre holding empresarial, marcas, tributação e patrimônio.</p>
         </div>
         <div class="grade grade-3">
       ${ordenadas.slice(0, 3).map(cartaoMateria).join('\n      ')}
@@ -398,8 +399,8 @@ paginas['imoveis/index.html'] = redirecionar('/');
   const temas = [...new Set(ordenadas.map(m => m.tema))];
   paginas['blog/index.html'] = pagina({
     caminho: '/blog/',
-    titulo: 'Blog: holding, patrimônio e imóveis',
-    descricao: 'Guias práticos sobre holding, organização do patrimônio e imóveis: holding patrimonial, garantias de aluguel, vistoria, reajuste, galpões e renovação comercial.',
+    titulo: 'Blog: holding empresarial, marcas e patrimônio',
+    descricao: 'Guias sobre holding empresarial: tipos de holding, governança, registro de marcas no INPI, dividendos em 2026 e holding patrimonial.',
     jsonld: [t.ld, {
       '@context': 'https://schema.org', '@type': 'Blog', name: 'Blog 1972corp', url: SITE + '/blog/', inLanguage: 'pt-BR',
       publisher: { '@id': SITE + '/#organizacao' },
@@ -498,6 +499,46 @@ for (const m of ordenadas) {
   });
 }
 
+// Área restrita: empresas e marcas do grupo (login por código SMS; dados no Supabase do AXIA, tabelas c1972_*;
+// ver Projetos IA/1972corp-backend/area-empresas.sql)
+paginas['area/index.html'] = pagina({
+  caminho: '/area/',
+  titulo: 'Área restrita',
+  descricao: 'Área restrita da 1972corp.',
+  semIndex: true,
+  conteudo: `
+    <section class="cabecalho-pagina">
+      <div class="container">
+        <h1>Área restrita</h1>
+        <p>Empresas e marcas do grupo 1972corp. Acesso somente para pessoas autorizadas.</p>
+      </div>
+    </section>
+    <section class="secao">
+      <div class="container" style="max-width:560px" id="area-login">
+        <form class="formulario" id="form-celular">
+          <label>Celular com DDD<input name="celular" type="tel" inputmode="tel" autocomplete="tel" placeholder="(11) 99999-9999" required></label>
+          <button class="botao botao-primario" type="submit">Receber código por SMS</button>
+          <small>Enviaremos um código de 6 dígitos para o celular cadastrado.</small>
+        </form>
+        <form class="formulario oculto" id="form-codigo" style="margin-top:16px">
+          <label>Código recebido por SMS<input name="codigo" inputmode="numeric" autocomplete="one-time-code" pattern="[0-9]{6}" maxlength="6" required></label>
+          <button class="botao botao-primario" type="submit">Entrar</button>
+          <button class="botao botao-contorno" type="button" id="trocar-celular">Usar outro celular</button>
+        </form>
+        <p id="area-msg" role="status" aria-live="polite" style="margin-top:16px"></p>
+      </div>
+      <div class="container oculto" id="area-painel">
+        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:24px">
+          <p style="margin:0">Olá, <strong id="area-nome"></strong>.</p>
+          <button class="botao botao-contorno" type="button" id="sair">Sair</button>
+        </div>
+        <div class="grade grade-2" id="area-empresas"></div>
+      </div>
+    </section>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.3/dist/umd/supabase.js" defer></script>
+    <script src="/assets/js/area.js?v=${hash('assets/js/area.js')}" defer></script>`
+});
+
 // 404
 paginas['404.html'] = pagina({
   caminho: '/404.html',
@@ -524,6 +565,7 @@ function redirecionar(destino) {
 }
 paginas['privacy/index.html'] = redirecionar('/privacidade/');
 paginas['legal-notice/index.html'] = redirecionar('/privacidade/');
+for (const sl of removidas) paginas[`blog/${sl}/index.html`] = redirecionar('/blog/');
 
 // ---------- Gravação ----------
 for (const [arq, html] of Object.entries(paginas)) {
@@ -540,6 +582,6 @@ fs.writeFileSync(path.join(RAIZ, 'sitemap.xml'),
   `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n` +
   urls.map(([u, p, d]) => `  <url><loc>${SITE}${u}</loc><lastmod>${d || HOJE}</lastmod><priority>${p}</priority></url>`).join('\n') +
   `\n</urlset>\n`);
-fs.writeFileSync(path.join(RAIZ, 'robots.txt'), `User-agent: *\nAllow: /\nDisallow: /gerador/\n\nSitemap: ${SITE}/sitemap.xml\n`);
+fs.writeFileSync(path.join(RAIZ, 'robots.txt'), `User-agent: *\nAllow: /\nDisallow: /gerador/\nDisallow: /area/\n\nSitemap: ${SITE}/sitemap.xml\n`);
 
 console.log(`${Object.keys(paginas).length} páginas geradas (css v=${V_CSS}, js v=${V_JS}).`);

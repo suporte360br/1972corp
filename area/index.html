@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Área restrita | 1972corp</title>
+  <meta name="description" content="Área restrita da 1972corp.">
+  <link rel="canonical" href="https://1972corp.com.br/area/">
+  <meta name="robots" content="noindex, follow">
+  <script>/* Endereços com parâmetros (ex.: ?u=... criados pela invasão do site antigo da UOL) não devem ser indexados */if(location.search){var r=document.querySelector('meta[name=robots]');if(r)r.content='noindex, follow';}</script>
+  <meta name="theme-color" content="#1c1f24">
+  <meta property="og:locale" content="pt_BR">
+  <meta property="og:site_name" content="1972corp">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Área restrita">
+  <meta property="og:description" content="Área restrita da 1972corp.">
+  <meta property="og:url" content="https://1972corp.com.br/area/">
+  <meta property="og:image" content="https://1972corp.com.br/assets/img/og.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Área restrita">
+  <meta name="twitter:description" content="Área restrita da 1972corp.">
+  <meta name="twitter:image" content="https://1972corp.com.br/assets/img/og.jpg">
+  <link rel="icon" href="/favicon.ico?v=3" sizes="48x48">
+  <link rel="icon" type="image/png" sizes="512x512" href="/assets/img/icon-512.png?v=3">
+  <link rel="icon" type="image/png" sizes="192x192" href="/assets/img/icon-192.png?v=3">
+  <link rel="icon" type="image/png" sizes="144x144" href="/assets/img/icon-144.png?v=3">
+  <link rel="icon" type="image/png" sizes="96x96" href="/assets/img/icon-96.png?v=3">
+  <link rel="icon" type="image/png" sizes="48x48" href="/assets/img/favicon-48.png?v=3">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicon-32.png?v=3">
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicon-16.png?v=3">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/img/apple-touch-icon.png?v=3">
+  <link rel="manifest" href="/site.webmanifest?v=3">
+  <link rel="preload" href="/assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/assets/fonts/fraunces-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/assets/css/style.css?v=4bc59eb6">
+  
+</head>
+<body>
+  <a class="pular" href="#conteudo">Pular para o conteúdo</a>
+  <header class="topo">
+    <div class="container">
+      <a class="marca" href="/" aria-label="1972corp, página inicial">
+        <img src="/assets/img/logo.png" alt="1972corp" width="60" height="60">
+      </a>
+      <button class="botao-menu" aria-expanded="false" aria-controls="menu">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"/></svg> Menu
+      </button>
+      <nav class="menu" id="menu" aria-label="Principal">
+        <ul>
+          <li><a href="/">Início</a></li>
+          <li><a href="/sobre/">Sobre</a></li>
+          <li><a href="/blog/">Blog</a></li>
+          <li><a href="/area/" aria-current="page">Área restrita</a></li>
+          <li><a class="cta-menu" href="/contato/">Contato</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="conteudo">
+
+    <section class="cabecalho-pagina">
+      <div class="container">
+        <h1>Área restrita</h1>
+        <p>Empresas e marcas do grupo 1972corp. Acesso somente para pessoas autorizadas.</p>
+      </div>
+    </section>
+    <section class="secao">
+      <div class="container" style="max-width:560px" id="area-login">
+        <form class="formulario" id="form-celular">
+          <label>Celular com DDD<input name="celular" type="tel" inputmode="tel" autocomplete="tel" placeholder="(11) 99999-9999" required></label>
+          <button class="botao botao-primario" type="submit">Receber código por SMS</button>
+          <small>Enviaremos um código de 6 dígitos para o celular cadastrado.</small>
+        </form>
+        <form class="formulario oculto" id="form-codigo" style="margin-top:16px">
+          <label>Código recebido por SMS<input name="codigo" inputmode="numeric" autocomplete="one-time-code" pattern="[0-9]{6}" maxlength="6" required></label>
+          <button class="botao botao-primario" type="submit">Entrar</button>
+          <button class="botao botao-contorno" type="button" id="trocar-celular">Usar outro celular</button>
+        </form>
+        <p id="area-msg" role="status" aria-live="polite" style="margin-top:16px"></p>
+      </div>
+      <div class="container oculto" id="area-painel">
+        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:24px">
+          <p style="margin:0">Olá, <strong id="area-nome"></strong>.</p>
+          <button class="botao botao-contorno" type="button" id="sair">Sair</button>
+        </div>
+        <div class="grade grade-2" id="area-empresas"></div>
+      </div>
+    </section>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.3/dist/umd/supabase.js" defer></script>
+    <script src="/assets/js/area.js?v=a1316ba2" defer></script>
+  </main>
+
+  <footer class="rodape">
+    <div class="container">
+      <div class="colunas">
+        <div>
+          <img class="logo-rodape" src="/assets/img/logo.png" alt="Logotipo 1972corp" width="64" height="64" loading="lazy">
+          <p>Holding empresarial que reúne participações societárias e patrimônio imobiliário em São Paulo, com gestão profissional e visão de longo prazo.</p>
+        </div>
+        <div>
+          <h2>Navegação</h2>
+          <ul>
+            <li><a href="/sobre/">Sobre a 1972corp</a></li>
+            <li><a href="/blog/">Blog</a></li>
+            <li><a href="/contato/">Contato</a></li>
+          </ul>
+        </div>
+        <div>
+          <h2>Contato</h2>
+          <ul>
+            <li><a href="mailto:contato@1972corp.com.br">contato@1972corp.com.br</a></li>
+            <li>São Paulo – SP</li>
+            <li><a href="/privacidade/">Política de privacidade</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="base">
+        <span>© <span id="ano">2026</span> 1972corp. Marca registrada no INPI.</span>
+        <span>Holding empresarial</span>
+      </div>
+    </div>
+  </footer>
+  <script src="/assets/js/main.js?v=307d8094" defer></script>
+</body>
+</html>
