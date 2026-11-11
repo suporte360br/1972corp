@@ -24,6 +24,7 @@
 
   var BUCKET = 'c1972-imoveis';
   var imoveis = [];
+  var ehAdmin = false;
   var links = {}; // caminho no bucket -> link temporário
 
   // Links temporários (1 h) para todos os arquivos dos imóveis; arquivos que não existirem ficam de fora
@@ -58,7 +59,8 @@
         '<p>' + esc(im.resumo) + '</p>' +
         '<ul class="detalhes">' + (im.detalhes || []).map(function (d) { return '<li>' + esc(d) + '</li>'; }).join('') + '</ul>' +
         '<p class="meta">Valor: ' + esc(im.valor) + '</p>' +
-        '<div class="rodape-cartao">' + botao + '</div>' +
+        '<div class="rodape-cartao" style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">' + botao +
+          (ehAdmin ? '<button class="botao botao-contorno" type="button" data-docs="' + i + '">Documentos</button>' : '') + '</div>' +
       '</div></article>';
   }
 
@@ -108,7 +110,33 @@
   });
   dlg.addEventListener('close', function () { $('galeria-item').innerHTML = ''; });
 
+  // ---------- Documentos (só admin; links gerados na hora, valem 5 min) ----------
+  var dlgDocs = document.createElement('dialog');
+  dlgDocs.className = 'galeria documentos';
+  dlgDocs.innerHTML = '<div class="topo-galeria"><h2 id="docs-titulo"></h2><button class="fechar" type="button">Fechar</button></div><div id="docs-lista" style="padding:8px 16px 20px"></div>';
+  document.body.appendChild(dlgDocs);
+  dlgDocs.addEventListener('click', async function (e) {
+    if (e.target === dlgDocs || e.target.closest('.fechar')) { dlgDocs.close(); return; }
+    var b = e.target.closest('[data-arquivo]');
+    if (!b) return;
+    var r = await sb.storage.from(BUCKET).createSignedUrl(b.getAttribute('data-arquivo'), 300);
+    if (r.error || !r.data) { b.textContent = 'Arquivo não encontrado'; return; }
+    window.open(r.data.signedUrl, '_blank', 'noopener');
+  });
+  function abrirDocs(im) {
+    var docs = im.documentos || [];
+    $('docs-titulo').textContent = 'Documentos – ' + im.titulo;
+    $('docs-lista').innerHTML = docs.length
+      ? '<ul style="list-style:none;padding:0;margin:0;display:grid;gap:8px">' + docs.map(function (d) {
+          return '<li><button class="botao botao-claro" type="button" data-arquivo="' + esc(d.arquivo) + '">📄 ' + esc(d.nome || d.arquivo.split('/').pop()) + '</button></li>';
+        }).join('') + '</ul>'
+      : '<p style="color:#c9d1db">Nenhum documento cadastrado para este imóvel ainda.</p>';
+    dlgDocs.showModal();
+  }
+
   $('area-imoveis').addEventListener('click', function (e) {
+    var d = e.target.closest('[data-docs]');
+    if (d) { abrirDocs(imoveis[+d.getAttribute('data-docs')]); return; }
     var b = e.target.closest('[data-galeria]');
     if (b) abrirGaleria(imoveis[+b.getAttribute('data-galeria')]);
   });
@@ -124,6 +152,7 @@
     if (lista.error) { aviso('Não foi possível carregar os imóveis: ' + lista.error.message, true); return; }
     imoveis = lista.data || [];
     await assinar(imoveis);
+    ehAdmin = acesso.data[0].papel === 'admin';
     $('area-nome').textContent = acesso.data[0].nome;
     $('area-imoveis').innerHTML = imoveis.length ? imoveis.map(cartao).join('') : '<p>Nenhum imóvel disponível no momento.</p>';
     login.classList.add('oculto');
