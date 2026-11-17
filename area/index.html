@@ -7,7 +7,7 @@
   <meta name="description" content="Área restrita da 1972corp.">
   <link rel="canonical" href="https://1972corp.com.br/area/">
   <meta name="robots" content="noindex, follow">
-  <script>/* Endereços com parâmetros (ex.: ?u=... criados pela invasão do site antigo da UOL) não devem ser indexados */if(location.search){var r=document.querySelector('meta[name=robots]');if(r)r.content='noindex, follow';}</script>
+  <script>/* Endereços com parâmetros (ex.: ?u=... criados pela invasão do site antigo da UOL) não são indexados; na página inicial, redireciona para o endereço limpo */if(location.search){var r=document.querySelector('meta[name=robots]');if(r)r.content='noindex, follow';if(location.pathname==='/'){location.replace('/');}}</script>
   <meta name="theme-color" content="#1c1f24">
   <meta property="og:locale" content="pt_BR">
   <meta property="og:site_name" content="1972corp">
