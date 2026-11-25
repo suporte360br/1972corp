@@ -1,0 +1,4 @@
+Contact: mailto:contato@1972corp.com.br
+Expires: 2027-11-24T00:00:00.000Z
+Preferred-Languages: pt, en
+Canonical: https://1972corp.com.br/.well-known/security.txt

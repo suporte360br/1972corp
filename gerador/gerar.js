@@ -35,7 +35,24 @@ const MENU = [
   ['/area/', 'Área restrita'],
 ];
 
-function pagina({ caminho, titulo, descricao, conteudo, imagem = 'og.jpg', tipo = 'website', jsonld = [], semIndex = false, preload = '' }) {
+// Política de segurança de conteúdo (CSP). A área restrita também fala com o Supabase e carrega o supabase-js do jsDelivr.
+const SUPABASE = 'https://sodztpnfelmntvnbmzff.supabase.co';
+function csp(area) {
+  return [
+    "default-src 'self'",
+    "script-src 'self'" + (area ? ' https://cdn.jsdelivr.net' : ''),
+    "style-src 'self' 'unsafe-inline'",
+    "img-src 'self' data:" + (area ? ' ' + SUPABASE : ''),
+    "font-src 'self'",
+    "connect-src 'self'" + (area ? ' ' + SUPABASE + ' wss://sodztpnfelmntvnbmzff.supabase.co' : ''),
+    "object-src 'none'",
+    "base-uri 'self'",
+    "form-action 'self'",
+    'upgrade-insecure-requests'
+  ].join('; ');
+}
+
+function pagina({ caminho, titulo, descricao, conteudo, imagem = 'og.jpg', tipo = 'website', jsonld = [], semIndex = false, preload = '', area = false }) {
   const url = SITE + caminho;
   const tituloCompleto = caminho === '/' ? titulo : `${titulo} | ${NOME}`;
   const menu = MENU.map(([href, txt]) => {
@@ -47,12 +64,14 @@ function pagina({ caminho, titulo, descricao, conteudo, imagem = 'og.jpg', tipo 
 <html lang="pt-BR">
 <head>
   <meta charset="utf-8">
+  <meta http-equiv="Content-Security-Policy" content="${csp(area)}">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>${esc(tituloCompleto)}</title>
   <meta name="description" content="${esc(descricao)}">
   <link rel="canonical" href="${url}">
   ${semIndex ? '<meta name="robots" content="noindex, follow">' : '<meta name="robots" content="index, follow, max-image-preview:large">'}
-  <script>/* Endereços com parâmetros (ex.: ?u=... criados pela invasão do site antigo da UOL) não são indexados; na página inicial, redireciona para o endereço limpo */if(location.search){var r=document.querySelector('meta[name=robots]');if(r)r.content='noindex, follow';if(location.pathname==='/'){location.replace('/');}}</script>
+  <script src="/assets/js/sem-parametros.js?v=${hash('assets/js/sem-parametros.js')}"></script>
   <meta name="theme-color" content="#1c1f24">
   <meta property="og:locale" content="pt_BR">
   <meta property="og:site_name" content="${NOME}">
@@ -506,6 +525,7 @@ paginas['area/index.html'] = pagina({
   titulo: 'Área restrita',
   descricao: 'Área restrita da 1972corp.',
   semIndex: true,
+  area: true,
   conteudo: `
     <section class="cabecalho-pagina">
       <div class="container">
@@ -535,7 +555,7 @@ paginas['area/index.html'] = pagina({
         <div class="grade grade-2" id="area-empresas"></div>
       </div>
     </section>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.3/dist/umd/supabase.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.3/dist/umd/supabase.js" integrity="sha384-BWcjm9OdFth9TbhCxZPdm+gAOUMAzQy9nmTs12ioXdCcbVnJaPMn+fMUoQCLt60R" crossorigin="anonymous" referrerpolicy="no-referrer" defer></script>
     <script src="/assets/js/area.js?v=${hash('assets/js/area.js')}" defer></script>`
 });
 

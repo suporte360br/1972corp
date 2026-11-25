@@ -2,6 +2,12 @@
 // A chave publishable é pública por natureza; quem protege os dados são as funções c1972_* do banco,
 // que só respondem para celulares cadastrados em c1972_acessos (ver Projetos IA/1972corp-backend/area-empresas.sql).
 (function () {
+  // Não deixa a área ser aberta dentro de outro site (proteção contra clickjacking)
+  if (window.top !== window.self) {
+    try { window.top.location = window.self.location.href; } catch (e) { document.documentElement.innerHTML = ''; }
+    return;
+  }
+
   var SUPABASE_URL = 'https://sodztpnfelmntvnbmzff.supabase.co';
   var SUPABASE_KEY = 'sb_publishable_jADhJfITu4l9-GvFv-csLA_1ik6DE16';
   var BUCKET = 'c1972-empresas';
@@ -23,6 +29,10 @@
     return /^55\d{10,11}$/.test(n) ? n : null;
   }
 
+  // Só aceita links http(s) e e-mails simples vindos do banco
+  function urlSegura(u) { return /^https?:\/\/[^\s"<>]+$/i.test(u || '') ? u : ''; }
+  function emailSeguro(e) { return /^[^\s@"<>]+@[^\s@"<>]+\.[^\s@"<>]+$/.test(e || '') ? e : ''; }
+
   var empresas = [];
   var ROTULO = { ok: 'Em dia', atencao: 'Atenção', pendente: 'Pendente' };
 
@@ -31,8 +41,9 @@
   }
 
   function cartao(e, i) {
-    var site = e.site ? '<a href="' + esc(e.site) + '" target="_blank" rel="noopener">' + esc(e.site.replace(/^https?:\/\//, '')) + '</a>' : '';
-    var email = e.email ? '<a href="mailto:' + esc(e.email) + '">' + esc(e.email) + '</a>' : '';
+    var siteOk = urlSegura(e.site), emailOk = emailSeguro(e.email);
+    var site = siteOk ? '<a href="' + esc(siteOk) + '" target="_blank" rel="noopener noreferrer">' + esc(siteOk.replace(/^https?:\/\//, '')) + '</a>' : '';
+    var email = emailOk ? '<a href="mailto:' + esc(emailOk) + '">' + esc(emailOk) + '</a>' : '';
     var dados = '<table class="ficha">' +
       linha('Atividade', esc(e.atividade)) + linha('Situação', esc(e.situacao)) +
       linha('CNPJ', esc(e.cnpj || 'Não cadastrado')) + linha('Site', site) + linha('E-mail', email) + '</table>';
@@ -75,7 +86,7 @@
     if (!b) return;
     var r = await sb.storage.from(BUCKET).createSignedUrl(b.getAttribute('data-arquivo'), 300);
     if (r.error || !r.data) { b.textContent = 'Arquivo não encontrado'; return; }
-    window.open(r.data.signedUrl, '_blank', 'noopener');
+    if (r.data.signedUrl.indexOf(SUPABASE_URL + '/') === 0) window.open(r.data.signedUrl, '_blank', 'noopener,noreferrer');
   });
   function abrirDocs(e) {
     $('docs-titulo').textContent = 'Documentos – ' + e.nome;
