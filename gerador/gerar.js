@@ -30,6 +30,7 @@ const icones = {
 
 const MENU = [
   ['/', 'Início'],
+  ['/holding-empresarial/', 'Holding empresarial'],
   ['/sobre/', 'Sobre'],
   ['/blog/', 'Blog'],
   ['/area/', 'Área restrita'],
@@ -54,7 +55,7 @@ function csp(area) {
 
 function pagina({ caminho, titulo, descricao, conteudo, imagem = 'og.jpg', tipo = 'website', jsonld = [], semIndex = false, preload = '', area = false }) {
   const url = SITE + caminho;
-  const tituloCompleto = caminho === '/' ? titulo : `${titulo} | ${NOME}`;
+  const tituloCompleto = caminho === '/' || titulo.length + NOME.length + 3 > 60 ? titulo : `${titulo} | ${NOME}`;
   const menu = MENU.map(([href, txt]) => {
     const atual = href === '/' ? caminho === '/' : caminho.startsWith(href);
     return `<li><a href="${href}"${atual ? ' aria-current="page"' : ''}>${txt}</a></li>`;
@@ -132,6 +133,7 @@ ${conteudo}
         <div>
           <h2>Navegação</h2>
           <ul>
+            <li><a href="/holding-empresarial/">Holding empresarial</a></li>
             <li><a href="/sobre/">Sobre a 1972corp</a></li>
             <li><a href="/blog/">Blog</a></li>
             <li><a href="/contato/">Contato</a></li>
@@ -240,7 +242,7 @@ paginas['index.html'] = pagina({
         <h1>Participações, patrimônio e governança sob uma gestão única</h1>
         <p>A 1972corp é a holding que reúne participações societárias e o patrimônio imobiliário do grupo, com gestão profissional, controles claros e visão de longo prazo.</p>
         <div class="acoes">
-          <a class="botao botao-primario" href="/sobre/">Conheça a 1972corp</a>
+          <a class="botao botao-primario" href="/holding-empresarial/">Como funciona a holding</a>
           <a class="botao botao-claro" href="/contato/">Fale com a gente</a>
         </div>
       </div>
@@ -327,6 +329,106 @@ paginas['index.html'] = pagina({
 
 // /imoveis/ deixou de existir (área do cliente foi para o Mana Vivaro): redireciona para a página inicial
 paginas['imoveis/index.html'] = redirecionar('/');
+
+// Página-pilar: holding empresarial (liga as matérias do grupo de conteúdo)
+{
+  const t = trilha([['/', 'Início'], ['/holding-empresarial/', 'Holding empresarial']]);
+  const FAQ_HOLDING = [
+    ['O que é uma holding empresarial?', 'É uma empresa criada para deter participações em outras empresas e bens, como imóveis e marcas. Ela concentra o controle, as decisões estratégicas e a alocação de capital do grupo.'],
+    ['Qual a diferença entre holding pura e mista?', 'A holding pura só detém participações e recebe lucros das controladas. A mista também exerce atividade própria, como prestar serviços de gestão, licenciar marcas ou alugar imóveis.'],
+    ['Holding paga imposto sobre dividendos?', 'Dividendos recebidos de controladas, de empresa para empresa, não são o alvo da retenção criada em 2026. Já a distribuição a pessoas físicas acima de R$ 50 mil por mês, pela mesma empresa, tem retenção de 10% (Lei 15.270/2025).'],
+    ['Imóveis podem ficar na holding empresarial?', 'Sim, mas muitos grupos preferem uma holding imobiliária ou patrimonial separada, controlada pela holding principal, para isolar riscos e organizar a tributação dos aluguéis.'],
+  ];
+  const grupo = [
+    ['o-que-e-holding-empresarial', 'Fundamentos', 'O que é holding empresarial e quando faz sentido'],
+    ['holding-pura-mista-patrimonial', 'Estrutura', 'Holding pura, mista ou patrimonial: qual escolher'],
+    ['lucros-e-dividendos-na-holding', 'Tributação', 'Dividendos na holding: o que muda em 2026'],
+    ['registro-de-marca-no-inpi', 'Marcas', 'Registro de marca no INPI: etapas, prazos e renovação'],
+    ['holding-imobiliaria', 'Imóveis', 'Holding imobiliária: como funciona e como é tributada'],
+    ['holding-patrimonial-imoveis', 'Imóveis', 'Holding patrimonial para imóveis'],
+    ['holding-e-incorporacao-imobiliaria', 'Imóveis', 'Holding e incorporação imobiliária: SPE e RET'],
+    ['holding-imoveis-e-criptoativos', 'Investimentos', 'Holding para imóveis e criptoativos'],
+  ].filter(([slug]) => materias.some(m => m.slug === slug));
+  paginas['holding-empresarial/index.html'] = pagina({
+    caminho: '/holding-empresarial/',
+    titulo: 'Holding empresarial: guia completo',
+    descricao: 'Guia de holding empresarial: o que é, tipos (pura, mista, patrimonial, imobiliária), tributação de dividendos, marcas no INPI, imóveis e governança.',
+    jsonld: [t.ld, {
+      '@context': 'https://schema.org', '@type': 'FAQPage',
+      mainEntity: FAQ_HOLDING.map(([q, a]) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: a } }))
+    }, {
+      '@context': 'https://schema.org', '@type': 'CollectionPage', name: 'Holding empresarial: guia completo', url: SITE + '/holding-empresarial/',
+      inLanguage: 'pt-BR', publisher: { '@id': SITE + '/#organizacao' },
+      hasPart: grupo.map(([slug, , titulo]) => ({ '@type': 'BlogPosting', headline: titulo, url: SITE + '/blog/' + slug + '/' }))
+    }],
+    conteudo: `
+    <section class="cabecalho-pagina">
+      <div class="container">
+        ${t.html}
+        <h1>Holding empresarial: guia completo</h1>
+        <p>Como uma holding organiza empresas, marcas e imóveis de um grupo, e o que considerar em estrutura, tributação e governança.</p>
+      </div>
+    </section>
+    <section class="secao">
+      <div class="container grade grade-2" style="align-items:start">
+        <div>
+          <h2>Em uma frase</h2>
+          <p>A <strong>holding empresarial</strong> é a empresa que fica no topo do grupo: é sócia das empresas operacionais, pode ser dona das marcas e dos imóveis, e concentra as decisões estratégicas e a alocação de capital.</p>
+          <h2>Para que serve</h2>
+          <ul>
+            <li><strong>Controle:</strong> um só centro de decisão para todas as empresas.</li>
+            <li><strong>Capital:</strong> lucro de uma empresa reinvestido em outra sem passar pela pessoa física.</li>
+            <li><strong>Riscos isolados:</strong> cada negócio no seu CNPJ.</li>
+            <li><strong>Ativos organizados:</strong> marcas e imóveis na holding, licenciados ou alugados às empresas do grupo.</li>
+            <li><strong>Sócios e investidores:</strong> entrada em um negócio específico sem abrir o grupo inteiro.</li>
+          </ul>
+        </div>
+        <div>
+          <h2>Como a 1972corp se organiza</h2>
+          <p>A 1972corp atua como holding empresarial em São Paulo, reunindo participações societárias e patrimônio imobiliário, com governança e prestação de contas periódica. <a href="/sobre/">Conheça a 1972corp</a>.</p>
+          <h2>Tipos de holding</h2>
+          <div class="rolagem"><table class="tabela">
+            <thead><tr><th>Tipo</th><th>Foco</th></tr></thead>
+            <tbody>
+              <tr><td>Pura</td><td>Só participações em outras empresas</td></tr>
+              <tr><td>Mista</td><td>Participações + atividade própria (gestão, marcas, locação)</td></tr>
+              <tr><td>Patrimonial</td><td>Organização de bens e sucessão</td></tr>
+              <tr><td>Imobiliária</td><td>Imóveis como negócio (compra, venda, locação)</td></tr>
+            </tbody>
+          </table></div>
+        </div>
+      </div>
+    </section>
+    <section class="secao secao-alt" aria-labelledby="guia-titulo">
+      <div class="container">
+        <div class="secao-cabeca">
+          <span class="sobretitulo">Guia por tema</span>
+          <h2 id="guia-titulo">Aprofunde cada assunto</h2>
+        </div>
+        <div class="grade grade-3">
+          ${grupo.map(([slug, tema, titulo]) => '<a class="cartao" style="text-decoration:none" href="/blog/' + slug + '/"><div class="corpo"><span class="tag">' + esc(tema) + '</span><h3>' + esc(titulo) + '</h3></div></a>').join('\n          ')}
+        </div>
+      </div>
+    </section>
+    <section class="secao faq" aria-labelledby="faq-holding">
+      <div class="container" style="max-width:820px">
+        <div class="secao-cabeca"><h2 id="faq-holding">Perguntas frequentes</h2></div>
+        ${FAQ_HOLDING.map(([q, a]) => '<details><summary>' + esc(q) + '</summary><p>' + esc(a) + '</p></details>').join('\n        ')}
+      </div>
+    </section>
+    <section class="secao">
+      <div class="container">
+        <div class="chamada">
+          <div>
+            <h2>Quer conversar com a 1972corp?</h2>
+            <p>Para parcerias, negócios ou outros assuntos, fale com a gente.</p>
+          </div>
+          <a class="botao botao-primario" href="/contato/">Entrar em contato</a>
+        </div>
+      </div>
+    </section>`
+  });
+}
 
 // Sobre
 {
@@ -595,7 +697,7 @@ for (const [arq, html] of Object.entries(paginas)) {
 }
 
 const urls = [
-  ['/', '1.0'], ['/blog/', '0.8'], ['/sobre/', '0.6'], ['/contato/', '0.6'], ['/privacidade/', '0.2'],
+  ['/', '1.0'], ['/holding-empresarial/', '0.9'], ['/blog/', '0.8'], ['/sobre/', '0.6'], ['/contato/', '0.6'], ['/privacidade/', '0.2'],
   ...ordenadas.map(m => [`/blog/${m.slug}/`, '0.7', m.revisado || m.data])
 ];
 fs.writeFileSync(path.join(RAIZ, 'sitemap.xml'),

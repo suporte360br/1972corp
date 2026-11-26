@@ -5,6 +5,114 @@ exports.removidas = ["garantias-de-aluguel","vistoria-de-imovel-alugado","reajus
 
 exports.materias = [
   {
+    slug: "holding-imobiliaria",
+    titulo: "Holding imobiliária: como funciona e como é tributada",
+    tituloCurto: "Holding imobiliária",
+    descricao: "O que é holding imobiliária, diferença para a holding patrimonial, tributação de aluguéis e vendas, ITBI e o que muda com o IBS e a CBS.",
+    tema: "Holding",
+    data: "2026-11-26",
+    fontes: [{"nome":"Código Tributário Nacional, art. 37 (ITBI na integralização)","url":"https://www.planalto.gov.br/ccivil_03/leis/l5172compilado.htm"},{"nome":"Lei Complementar 214/2025 (IBS e CBS), arts. 260 e 261","url":"https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm"}],
+    corpo: `
+<p>A <strong>holding imobiliária</strong> é uma empresa cuja atividade principal é <strong>comprar, vender, alugar ou administrar imóveis próprios</strong>. Ela é muito usada por quem tem vários imóveis e quer tratá-los como um negócio, com contabilidade, contratos e decisões centralizadas.</p>
+
+<h2>Holding imobiliária ou patrimonial?</h2>
+<p>Na prática, os nomes se misturam. A diferença está no foco:</p>
+<ul>
+<li><strong>Patrimonial:</strong> concentra bens da família ou do empresário para organizar e planejar a sucessão. A renda costuma vir de aluguéis (veja <a href="/blog/holding-patrimonial-imoveis/">holding patrimonial</a>).</li>
+<li><strong>Imobiliária:</strong> tem a exploração de imóveis como negócio, com compra para revenda, locação em escala ou desenvolvimento de projetos.</li>
+</ul>
+<p>Para o fisco, o que importa é a atividade real e de onde vem a receita, e não o nome usado.</p>
+
+<h2>Tributação da renda</h2>
+<p>No lucro presumido, a base de cálculo do IRPJ e da CSLL é um percentual da receita, que varia conforme a atividade: na locação a presunção costuma ser bem maior que na venda de imóveis. Por isso, a mesma holding pode pagar cargas efetivas muito diferentes sobre aluguel e sobre venda. A comparação com a pessoa física e com o lucro real deve ser simulada pelo contador.</p>
+
+<h2>IBS e CBS: o que muda com a reforma</h2>
+<p>A Lei Complementar 214/2025 reduz as alíquotas de IBS e CBS em <strong>50%</strong> nas operações com bens imóveis e em <strong>70%</strong> na locação, na cessão onerosa e no arrendamento (art. 261). Na locação residencial existe ainda um <strong>redutor social</strong> por imóvel, abatido da base de cálculo a cada mês (art. 260). A transição para os novos tributos acontece ao longo dos próximos anos.</p>
+
+<h2>ITBI na hora de colocar os imóveis na holding</h2>
+<p>A imunidade do ITBI na integralização de capital <strong>não vale</strong> quando a atividade preponderante da empresa é compra, venda ou locação de imóveis. O Código Tributário Nacional considera preponderante a atividade que gera mais de 50% da receita operacional (art. 37). Numa holding imobiliária, isso quase sempre acontece: o ITBI deve entrar no custo do projeto.</p>
+
+<h2>Quando faz sentido</h2>
+<ul>
+<li>Vários imóveis com receita de aluguel relevante.</li>
+<li>Planos de comprar e vender imóveis com frequência.</li>
+<li>Vontade de separar o patrimônio imobiliário dos demais negócios do grupo, como uma controlada da <a href="/holding-empresarial/">holding empresarial</a>.</li>
+</ul>
+<div class="aviso">Conteúdo informativo. Estrutura societária e tributária deve ser definida com contador e advogado, com base nas regras em vigor.</div>`
+  },
+  {
+    slug: "holding-e-incorporacao-imobiliaria",
+    titulo: "Holding e incorporação imobiliária: SPE, patrimônio de afetação e RET",
+    tituloSEO: "Holding e incorporação imobiliária: SPE e RET",
+    tituloCurto: "Holding e incorporação imobiliária",
+    descricao: "Como grupos estruturam incorporações com holding e SPE, o que é patrimônio de afetação e como funciona o RET de 4% sobre a receita.",
+    tema: "Holding",
+    data: "2026-11-26",
+    fontes: [{"nome":"Lei 10.931/2004 (patrimônio de afetação e RET)","url":"https://www.planalto.gov.br/ccivil_03/_ato2004-2006/2004/lei/l10.931.htm"},{"nome":"Lei Complementar 214/2025 (IBS e CBS), arts. 260 e 261","url":"https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm"}],
+    corpo: `
+<p>Quem incorpora imóveis, ou seja, constrói e vende unidades na planta, costuma organizar o negócio em camadas: uma <strong>holding</strong> no topo e uma empresa separada para cada empreendimento, a chamada <strong>SPE</strong> (sociedade de propósito específico).</p>
+
+<h2>Por que uma SPE por empreendimento</h2>
+<ul>
+<li><strong>Riscos isolados:</strong> problemas de uma obra não contaminam as demais.</li>
+<li><strong>Sócios por projeto:</strong> é possível ter um investidor ou o dono do terreno como sócio só daquele empreendimento.</li>
+<li><strong>Controle financeiro:</strong> cada obra tem caixa, contabilidade e prestação de contas próprios.</li>
+</ul>
+<p>A holding é sócia das SPEs, recebe os resultados e decide onde reinvestir (veja <a href="/blog/o-que-e-holding-empresarial/">o que é holding empresarial</a>).</p>
+
+<h2>Patrimônio de afetação</h2>
+<p>A lei permite separar o terreno, a obra e os recursos de cada incorporação do restante do patrimônio da incorporadora: é o <strong>patrimônio de afetação</strong>. Os bens afetados respondem só pelas obrigações daquele empreendimento, o que dá mais segurança aos compradores e aos financiadores.</p>
+
+<h2>RET: tributação unificada de 4%</h2>
+<p>A incorporação submetida ao patrimônio de afetação pode optar pelo <strong>Regime Especial de Tributação (RET)</strong>: um pagamento mensal unificado de <strong>4% da receita recebida</strong>, que cobre IRPJ, CSLL, PIS e Cofins (Lei 10.931/2004, art. 4º). Para muitas incorporações, a carga é menor e o cálculo é bem mais simples.</p>
+<p>Com a reforma tributária, PIS e Cofins dão lugar à CBS, e a Lei Complementar 214/2025 tem regras próprias para a incorporação imobiliária, como a cobrança de IBS e CBS a cada pagamento das unidades vendidas. Quem vai lançar empreendimentos nos próximos anos precisa simular os dois cenários.</p>
+
+<h2>Cuidados</h2>
+<ol>
+<li>Definir no contrato da SPE as regras de aporte, distribuição de resultado e saída dos sócios.</li>
+<li>Formalizar o patrimônio de afetação no cartório de registro de imóveis antes de optar pelo RET.</li>
+<li>Manter contabilidade separada por empreendimento.</li>
+</ol>
+<div class="aviso">Conteúdo informativo. Estrutura societária e tributária deve ser definida com contador e advogado, com base nas regras em vigor.</div>`
+  },
+  {
+    slug: "holding-imoveis-e-criptoativos",
+    titulo: "Holding para imóveis e criptoativos: vale a pena?",
+    tituloCurto: "Holding para imóveis e criptoativos",
+    descricao: "Pode colocar criptoativos e imóveis na mesma holding? Veja como fica a tributação na pessoa física e na empresa, a guarda dos ativos e os cuidados.",
+    tema: "Holding",
+    data: "2026-11-26",
+    fontes: [{"nome":"Lei 14.478/2022 (marco legal dos ativos virtuais)","url":"https://www.planalto.gov.br/ccivil_03/_ato2019-2022/2022/lei/l14478.htm"},{"nome":"Lei 14.754/2023 (aplicações no exterior, inclusive ativos virtuais)","url":"https://www.planalto.gov.br/ccivil_03/_ato2023-2026/2023/lei/l14754.htm"}],
+    corpo: `
+<p>Cada vez mais empresários têm parte do patrimônio em <strong>criptoativos</strong> e se perguntam se vale colocá-los numa holding, junto com os imóveis. É possível, mas a decisão envolve tributação, guarda dos ativos e governança.</p>
+
+<h2>Na pessoa física</h2>
+<ul>
+<li><strong>Criptoativos em corretoras brasileiras ou carteira própria:</strong> o ganho na venda é tributado como ganho de capital. Vendas de pequeno valor no mês podem ser isentas, conforme as regras da Receita Federal.</li>
+<li><strong>Criptoativos no exterior:</strong> desde 2024, os ganhos com aplicações no exterior, <strong>inclusive ativos virtuais</strong>, são declarados à parte na declaração anual e tributados a <strong>15%</strong> (Lei 14.754/2023).</li>
+</ul>
+
+<h2>Na holding</h2>
+<ul>
+<li>Os criptoativos passam a ser ativos da empresa, registrados na contabilidade pelo custo de aquisição.</li>
+<li>Os ganhos entram no resultado da empresa e são tributados pelo regime escolhido (lucro presumido ou real).</li>
+<li>A distribuição do lucro aos sócios segue a regra nova de dividendos: retenção de 10% acima de R$ 50 mil por mês, por pessoa física (veja <a href="/blog/lucros-e-dividendos-na-holding/">dividendos na holding</a>).</li>
+</ul>
+
+<h2>Guarda e governança</h2>
+<p>Numa empresa, ninguém deve depender de uma única pessoa com a chave da carteira:</p>
+<ol>
+<li>Usar custódia profissional ou carteiras com múltiplas assinaturas.</li>
+<li>Registrar em ata quem pode movimentar e com quais limites.</li>
+<li>Guardar as chaves de recuperação de forma segura, com um plano para caso o responsável falte.</li>
+<li>Escolher prestadores que sigam o marco legal dos ativos virtuais (Lei 14.478/2022).</li>
+</ol>
+
+<h2>Imóveis e cripto na mesma estrutura?</h2>
+<p>Os riscos são muito diferentes: imóveis são estáveis e geram aluguel, criptoativos são voláteis. Muitos grupos preferem uma <a href="/holding-empresarial/">holding empresarial</a> no topo com empresas separadas para cada classe de ativo, como uma <a href="/blog/holding-imobiliaria/">holding imobiliária</a> e outra para investimentos. Isso facilita a gestão, a prestação de contas e uma eventual entrada de sócios.</p>
+<div class="aviso">Conteúdo informativo. Estrutura societária e tributária deve ser definida com contador e advogado, com base nas regras em vigor.</div>`
+  },
+  {
     slug: "o-que-e-holding-empresarial",
     titulo: "Holding empresarial: o que é e quando faz sentido",
     tituloCurto: "O que é holding empresarial",
@@ -45,6 +153,7 @@ exports.materias = [
   },
   {
     slug: "holding-pura-mista-patrimonial",
+    tituloSEO: "Holding pura, mista ou patrimonial: qual escolher",
     titulo: "Holding pura, mista ou patrimonial: qual estrutura escolher",
     tituloCurto: "Holding pura, mista ou patrimonial",
     descricao: "Compare holding pura, holding mista e holding patrimonial: o que cada uma faz, como é tributada e qual combina com o seu grupo de empresas.",
